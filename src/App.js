@@ -3,6 +3,7 @@ import Table from "./components/Table/Table";
 import React, {useEffect, useState} from "react";
 import Filters from "./components/Filters/Filters";
 import axios from "axios";
+import styles from "../src/components/Table/Table.module.scss"
 
 function App() {
   const [name, setName] = useState('');
@@ -13,84 +14,89 @@ function App() {
 
   const [activeStatus, setActiveStatus] = useState(false)
 
-
   const [inActiveStatus, setInActiveStatus] = useState(false)
+
+  const [isLoading, setIsLoading] = useState(false)
+
+  const [sortDirection, setSortDirection] = useState('asc')
+
+  const [sortField, setSortField] = useState('id')
 // все пользователи полученные с сервера
   const [usersData, setUsersData] = useState([]);
 
-  const [filtredUsers, setFiltredUsers] = useState([...usersData])
+  const [filtredUsers, setFiltredUsers] = useState([])
 
   useEffect(() => {
+    setIsLoading(true)
     axios.get('https://gorest.co.in/public-api/users?page=1&per_page=50')
       .then(res => {
         setUsersData(res.data.data)
+        setIsLoading(false)
       })
+
   }, [])
 
+  // sort by id
 
-  // Фильтрация по имени работника
+
   useEffect(() => {
     const filtredItems = usersData.filter((obj) => {
-      if (name.length !== 0 && obj.name.toLowerCase().includes(name.toLowerCase())) {
-        return obj;
-      } else if (name.length === 0) {
-        return obj
+      if (name.length !== 0) {
+        const nameArr = name.toLowerCase().replace(/  +/g, ' ').trim().split(' ');
+        const result = nameArr.every((item) => {      // ищем наличие всех массивов nameArr в obj.name
+          return obj.name.toLowerCase().includes(item)
+        })
+        return result
+      } else {
+        return true
       }
+    }).filter((obj) => {
+      return (email.length !== 0) ? obj.email.toLowerCase().includes(email.toLowerCase()) : true
+    }).filter(obj => {
+      return (gender.length !== 0) ? obj.gender === gender : true;
+    }).filter(obj => {
+      return (activeStatus && !inActiveStatus) ? obj.status === 'active' : true;
+    }).filter(obj => {
+      return (inActiveStatus && !activeStatus) ? obj.status === 'inactive' : true;
     })
     setFiltredUsers(filtredItems)
-  }, [name])
 
+  }, [name, email, gender, activeStatus, inActiveStatus])
 
-  // Фильтрация по email
-  useEffect(() => {
-    const filtredItems = usersData.filter((obj) => {
-      if (email.length !== 0 && obj.email.toLowerCase().includes(email.toLowerCase())) {
-        return obj;
-      } else if (email.length === 0) {
-        return obj
-      }
-    })
-    setFiltredUsers(filtredItems)
-  }, [email])
+  usersData.sort((itemA, itemB) => {
 
-  // Фильтрация по гендеру
-  useEffect(() => {
-    const filtredItems = usersData.filter((obj) => {
-      if (obj.gender === gender) {
-        return obj;
-      } else if (gender.length === 0) {
-        return obj
-      }
-    })
-    setFiltredUsers(filtredItems)
-  }, [gender])
-
-  console.log(activeStatus, inActiveStatus)
-
-  // фильтрация по статусу
-  useEffect(() => {
-    const filtredItems = usersData.filter((obj, index) => {
-      if (activeStatus && obj.status === 'active') {
-        return obj
-      } else if (inActiveStatus && obj.status === 'inactive') {
-        return obj
-      }
-
-    })
-    console.log(filtredItems.length, 'length')
-    setFiltredUsers(filtredItems)
-  }, [activeStatus, inActiveStatus])
+    if (sortField === 'id') {
+      return (sortDirection === "asc") ? (itemA.id - itemB.id) : (itemB.id - itemA.id);
+    }
+    if (sortField === 'status') {
+      return (sortDirection === "asc") ? (itemA.status.localeCompare(itemB.status)) : (itemB.status.localeCompare(itemA.status));
+    }
+  })
 
   return (
     <div className="container">
       <h1 className={'display-3 fw-bold text-center mb-4'}>People</h1>
-      <div className="row">
-        <div className={`col-8`}>
+      <div className={`row ${styles.table}`}>
+        <div className={`col-lg-8`}>
           {
-            (name.length === 0 && email.length === 0 && gender.length === 0
-              && activeStatus === false && inActiveStatus === false)
-              ? <Table items={usersData}/> :
-              <Table items={filtredUsers}/>
+            (isLoading) ? (
+                <div className={`d-flex justify-content-center align-items-center h-100`}>
+                  <div className="spinner-border " role="status">
+                    <span className="sr-only"></span>
+                  </div>
+                </div>) :
+              ((name.length === 0 && email.length === 0 && gender.length === 0
+                && activeStatus === false && inActiveStatus === false)
+                ? <Table items={usersData}
+                         sortDirection={sortDirection}
+                         setSortDirection={(value) => setSortDirection(value)}
+                         sortField={sortField}
+                         setSortField={(value) => setSortField(value)}/>
+                : <Table items={filtredUsers}
+                         sortDirection={sortDirection}
+                         setSortDirection={(value) => setSortDirection(value)}
+                         sortField={sortField}
+                         setSortField={(value) => setSortField(value)}/>)
           }
         </div>
         <Filters name={name}

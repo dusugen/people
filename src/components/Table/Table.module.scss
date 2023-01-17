@@ -1,0 +1,12 @@
+.table {
+  @media (max-width: 992px) {
+    flex-direction: column-reverse;
+  }
+}
+
+.img {
+  margin-left: 10px;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
