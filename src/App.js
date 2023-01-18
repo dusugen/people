@@ -1,112 +1,142 @@
-import './App.css';
+import "./App.css";
 import Table from "./components/Table/Table";
-import React, {useEffect, useState} from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Filters from "./components/Filters/Filters";
 import axios from "axios";
-import styles from "../src/components/Table/Table.module.scss"
+import styles from "../src/components/Table/Table.module.scss";
 
 function App() {
-  const [name, setName] = useState('');
+  const [filters, setFilters] = useState({
+    name: "",
+    email: "",
+    gender: "",
+    activeStatus: false,
+    inActiveStatus: false,
+  });
 
-  const [email, setEmail] = useState('');
+  const [sorting, setSorting] = useState({
+    direction: "",
+    field: "id",
+  });
 
-  const [gender, setGender] = useState('')
+  const [isLoading, setIsLoading] = useState(false);
 
-  const [activeStatus, setActiveStatus] = useState(false)
-
-  const [inActiveStatus, setInActiveStatus] = useState(false)
-
-  const [isLoading, setIsLoading] = useState(false)
-
-  const [sortDirection, setSortDirection] = useState('asc')
-
-  const [sortField, setSortField] = useState('id')
-// все пользователи полученные с сервера
+  // все пользователи полученные с сервера
   const [usersData, setUsersData] = useState([]);
 
-  const [filtredUsers, setFiltredUsers] = useState([])
+  const [filtredUsers, setFiltredUsers] = useState([]);
 
   useEffect(() => {
-    setIsLoading(true)
-    axios.get('https://gorest.co.in/public-api/users?page=1&per_page=50')
-      .then(res => {
-        setUsersData(res.data.data)
-        setFiltredUsers(res.data.data)
-        setIsLoading(false)
+    setIsLoading(true);
+    axios
+      .get("https://gorest.co.in/public-api/users?page=1&per_page=50")
+      .then((res) => {
+        setUsersData(res.data.data);
+        setFiltredUsers(res.data.data);
+        setIsLoading(false);
       })
-
-  }, [])
-
-  // sort by id
-
+      .catch((err) => {
+        alert(JSON.stringify(err));
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, []);
 
   useEffect(() => {
-    const filtredItems = usersData.filter((obj) => {
-      if (name.length !== 0) {
-        const nameArr = name.toLowerCase().replace(/  +/g, ' ').trim().split(' ');
-        const result = nameArr.every((item) => {      // ищем наличие всех массивов nameArr в obj.name
-          return obj.name.toLowerCase().includes(item)
-        })
-        return result
-      } else {
-        return true
+    const filtredItems = usersData
+      .filter((userData) => {
+        if (filters.name.length) {
+          const names = filters.name
+            .toLowerCase()
+            .replace(/  +/g, " ")
+            .trim()
+            .split(" ");
+          const namesData = names.every((item) => {
+            // ищем наличие всех массивов names в userData.name
+            return userData.name.toLowerCase().includes(item);
+          });
+          return namesData;
+        } else {
+          return true;
+        }
+      })
+      .filter((userData) => {
+        return filters.email.length
+          ? userData.email.toLowerCase().includes(filters.email.toLowerCase())
+          : true;
+      })
+      .filter((userData) => {
+        return filters.gender.length
+          ? userData.gender === filters.gender
+          : true;
+      })
+      .filter((userData) => {
+        return filters.activeStatus && !filters.inActiveStatus
+          ? userData.status === "active"
+          : true;
+      })
+      .filter((userData) => {
+        return filters.inActiveStatus && !filters.activeStatus
+          ? userData.status === "inactive"
+          : true;
+      });
+
+    // сортировка по id и status
+    filtredItems.sort((itemA, itemB) => {
+      if (sorting.field === "id") {
+        return sorting.direction === "asc"
+          ? itemA.id - itemB.id
+          : itemB.id - itemA.id;
       }
-    }).filter((obj) => {
-      return (email.length !== 0) ? obj.email.toLowerCase().includes(email.toLowerCase()) : true
-    }).filter(obj => {
-      return (gender.length !== 0) ? obj.gender === gender : true;
-    }).filter(obj => {
-      return (activeStatus && !inActiveStatus) ? obj.status === 'active' : true;
-    }).filter(obj => {
-      return (inActiveStatus && !activeStatus) ? obj.status === 'inactive' : true;
-    })
-    setFiltredUsers(filtredItems)
+      if (sorting.field === "status") {
+        return sorting.direction === "asc"
+          ? itemA.status.localeCompare(itemB.status)
+          : itemB.status.localeCompare(itemA.status);
+      }
+    });
+    setFiltredUsers(filtredItems);
+  }, [filters, sorting, usersData]);
 
-  }, [name, email, gender, activeStatus, inActiveStatus])
+  const handleFiltering = useCallback(
+    (newFilters) => {
+      setFilters({ ...filters, ...newFilters });
+    },
+    [filters]
+  );
 
-// сортировка по id и status
-  filtredUsers.sort((itemA, itemB) => {
-    if (sortField === 'id') {
-      return (sortDirection === "asc") ? (itemA.id - itemB.id) : (itemB.id - itemA.id);
-    }
-    if (sortField === 'status') {
-      return (sortDirection === "asc") ? (itemA.status.localeCompare(itemB.status)) : (itemB.status.localeCompare(itemA.status));
-    }
-  })
-
+  const handleSorting = useCallback(
+    (params) => {
+      setSorting({ ...sorting, ...params });
+    },
+    [sorting]
+  );
 
   return (
     <div className="container-md">
-      <h1 className={'display-3 fw-bold text-center mb-4'}>People</h1>
+      <h1 className={"display-3 fw-bold text-center mb-4"}>People</h1>
       <div className={`row ${styles.table}`}>
         <div className={`col-lg-8`}>
-          {
-            (isLoading) ? (
-                <div className={`d-flex justify-content-center align-items-center h-100`}>
-                  <div className="spinner-border " role="status">
-                    <span className="sr-only"></span>
-                  </div>
-                </div>)
-              : (<Table items={filtredUsers}
-                        sortDirection={sortDirection}
-                        setSortDirection={(value) => setSortDirection(value)}
-                        sortField={sortField}
-                        setSortField={setSortField}/>)
-          }
+          {isLoading ? (
+            <div
+              className={`d-flex justify-content-center align-items-center h-100`}
+            >
+              <div className="spinner-border " role="status">
+                <span className="sr-only"></span>
+              </div>
+            </div>
+          ) : (
+            <Table
+              items={filtredUsers}
+              sorting={sorting}
+              onSorting={handleSorting}
+            />
+          )}
         </div>
-        <Filters name={name}
-                 setName={(text) => setName(text)}
-                 email={email}
-                 setEmail={(mail) => setEmail(mail)}
-                 setGender={(sex) => setGender(sex)}
-                 activeStatus={activeStatus}
-                 setActiveStatus={(value) => setActiveStatus(value)}
-                 inActiveStatus={inActiveStatus}
-                 setInActiveStatus={(value) => setInActiveStatus(value)}
-        />
+        <Filters filters={filters} onFiltering={handleFiltering} />
       </div>
     </div>
-  )
+  );
 }
 
 export default App;
