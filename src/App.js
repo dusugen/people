@@ -31,6 +31,7 @@ function App() {
     axios.get('https://gorest.co.in/public-api/users?page=1&per_page=50')
       .then(res => {
         setUsersData(res.data.data)
+        setFiltredUsers(res.data.data)
         setIsLoading(false)
       })
 
@@ -63,8 +64,9 @@ function App() {
 
   }, [name, email, gender, activeStatus, inActiveStatus])
 
-  usersData.sort((itemA, itemB) => {
+  console.log(filtredUsers, 'filtredUsers')
 
+  filtredUsers.sort((itemA, itemB) => {
     if (sortField === 'id') {
       return (sortDirection === "asc") ? (itemA.id - itemB.id) : (itemB.id - itemA.id);
     }
@@ -72,6 +74,7 @@ function App() {
       return (sortDirection === "asc") ? (itemA.status.localeCompare(itemB.status)) : (itemB.status.localeCompare(itemA.status));
     }
   })
+
 
   return (
     <div className="container">
@@ -84,19 +87,12 @@ function App() {
                   <div className="spinner-border " role="status">
                     <span className="sr-only"></span>
                   </div>
-                </div>) :
-              ((name.length === 0 && email.length === 0 && gender.length === 0
-                && activeStatus === false && inActiveStatus === false)
-                ? <Table items={usersData}
-                         sortDirection={sortDirection}
-                         setSortDirection={(value) => setSortDirection(value)}
-                         sortField={sortField}
-                         setSortField={(value) => setSortField(value)}/>
-                : <Table items={filtredUsers}
-                         sortDirection={sortDirection}
-                         setSortDirection={(value) => setSortDirection(value)}
-                         sortField={sortField}
-                         setSortField={(value) => setSortField(value)}/>)
+                </div>)
+              : (<Table items={filtredUsers}
+                        sortDirection={sortDirection}
+                        setSortDirection={(value) => setSortDirection(value)}
+                        sortField={sortField}
+                        setSortField={setSortField}/>)
           }
         </div>
         <Filters name={name}

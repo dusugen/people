@@ -24,8 +24,10 @@ function Table({items, sortDirection, setSortDirection, sortField, setSortField}
       <thead>
       <tr>
         <th scope="col">
-          <span>Id</span>
-          <img src={sortImg} alt="sort" className={styles.img} onClick={() => handleSortId()}/>
+          <div>
+            <span>Id</span>
+            <img src={sortImg} alt="sort" className={styles.img} onClick={() => handleSortId()}/>
+          </div>
         </th>
         <th scope="col">Email</th>
         <th scope="col">Name</th>
