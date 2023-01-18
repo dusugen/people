@@ -2,11 +2,18 @@
   @media (max-width: 992px) {
     flex-direction: column-reverse;
   }
+  @media (max-width: 768px) {
+    //overflow: scroll;
+  }
 }
 
 .img {
-  margin-left: 10px;
+  margin-left: 5px;
   width: 18px;
   height: 18px;
   cursor: pointer;
+}
+
+.colStatus {
+  min-width: 90px !important;
 }

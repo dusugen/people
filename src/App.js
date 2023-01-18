@@ -64,8 +64,7 @@ function App() {
 
   }, [name, email, gender, activeStatus, inActiveStatus])
 
-  console.log(filtredUsers, 'filtredUsers')
-
+// сортировка по id и status
   filtredUsers.sort((itemA, itemB) => {
     if (sortField === 'id') {
       return (sortDirection === "asc") ? (itemA.id - itemB.id) : (itemB.id - itemA.id);
@@ -77,7 +76,7 @@ function App() {
 
 
   return (
-    <div className="container">
+    <div className="container-md">
       <h1 className={'display-3 fw-bold text-center mb-4'}>People</h1>
       <div className={`row ${styles.table}`}>
         <div className={`col-lg-8`}>

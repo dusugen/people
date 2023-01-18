@@ -18,11 +18,10 @@ function Table({items, sortDirection, setSortDirection, sortField, setSortField}
     return (sortDirection === 'asc') ? setSortDirection("desc") : setSortDirection("asc");
   }
 
-
   return (
-    <table className={`table table-hover`}>
-      <thead>
-      <tr>
+    <table className={`table table-hover ${styles.table}`}>
+      <thead className={`bg-warning bg-gradient`}>
+      <tr className={` pb-4`}>
         <th scope="col">
           <div>
             <span>Id</span>
@@ -32,7 +31,7 @@ function Table({items, sortDirection, setSortDirection, sortField, setSortField}
         <th scope="col">Email</th>
         <th scope="col">Name</th>
         <th scope="col">Gender</th>
-        <th scope="col">
+        <th scope="col" className={styles.colStatus}>
           Status
           <img src={sortImg} alt="sort" className={styles.img} onClick={() => handleSortStatus()}/>
         </th>

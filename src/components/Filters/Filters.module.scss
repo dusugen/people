@@ -4,6 +4,9 @@
     margin-left: 0px;
     margin-bottom: 20px;
   }
+  @media (min-width: 993px) and (max-width: 1199px) {
+    margin-left: 75px;
+  }
 }
 
 .btn {
