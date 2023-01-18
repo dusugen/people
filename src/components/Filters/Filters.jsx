@@ -1,8 +1,8 @@
 import React from "react";
-import {Button} from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import styles from "./Filters.module.scss";
 
-function Filters({onFiltering, filters}) {
+function Filters({ onFiltering, filters }) {
   const handleReset = () => {
     onFiltering({
       name: "",
@@ -20,18 +20,18 @@ function Filters({onFiltering, filters}) {
         className={`form-control mb-3`}
         placeholder={`Name`}
         value={filters.name}
-        onChange={(e) => onFiltering({...filters, name: e.target.value})}
+        onChange={(e) => onFiltering({ ...filters, name: e.target.value })}
       />
       <input
         className={`form-control mb-3`}
         placeholder={`Email`}
         value={filters.email}
-        onChange={(e) => onFiltering({...filters, email: e.target.value})}
+        onChange={(e) => onFiltering({ ...filters, email: e.target.value })}
       />
       <select
         className={`form-select mb-4`}
         aria-label={`Default select example`}
-        onChange={(e) => onFiltering({...filters, gender: e.target.value})}
+        onChange={(e) => onFiltering({ ...filters, gender: e.target.value })}
       >
         <option value={``}>Choose your gender</option>
         <option value={`male`}>Male</option>
@@ -46,7 +46,7 @@ function Filters({onFiltering, filters}) {
             value="active"
             checked={filters.activeStatus}
             onChange={() => {
-              onFiltering({...filters, activeStatus: !filters.activeStatus});
+              onFiltering({ ...filters, activeStatus: !filters.activeStatus });
             }}
           />
           <label className="form-check-label" htmlFor="inlineCheckbox1">
