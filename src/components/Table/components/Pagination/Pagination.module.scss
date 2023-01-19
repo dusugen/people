@@ -1,6 +1,8 @@
 .root {
   display: flex;
-  justify-content: start;
+  padding-left: 0;
+  align-items: center;
+  margin: 0;
 
   li {
     display: inline-block;
@@ -14,8 +16,8 @@
       height: 30px;
       text-align: center;
       line-height: 30px;
-      border-radius: 30px;
-      margin-right: 10px;
+      border-radius: 6px;
+      margin-right: 5px;
       cursor: pointer;
       border: 1px solid cornflowerblue;
 
@@ -34,4 +36,8 @@
       }
     }
   }
+}
+
+.dropdown {
+  width: 13%;
 }

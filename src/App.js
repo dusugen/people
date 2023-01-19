@@ -1,10 +1,9 @@
 import "./App.css";
-import Table from "./components/Table/Table";
 import React, { useCallback, useEffect, useState } from "react";
 import Filters from "./components/Filters/Filters";
 import axios from "axios";
-import styles from "../src/components/Table/Table.module.scss";
-import Pagination from "./components/Pagination/Pagination";
+import styles from "./components/Table/Table.module.scss";
+import Table from "./components/Table/Table";
 
 function App() {
   const [filters, setFilters] = useState({
@@ -22,10 +21,8 @@ function App() {
 
   const [pagination, setPagination] = useState({
     page: 0,
-    per_page: 25,
+    per_page: 10,
   });
-
-  console.log(pagination.page, "page");
 
   const [meta, setMeta] = useState({});
 
@@ -112,15 +109,15 @@ function App() {
   );
 
   return (
-    <div className="container-md">
-      <h1 className={"display-3 fw-bold text-center mb-4"}>People</h1>
-      <div className={`row ${styles.table}`}>
-        <div className={`col-lg-8`}>
+    <div className="container-lg container-md">
+      <h1 className={" display-3 fw-bold text-center mb-4"}>People</h1>
+      <div className={`row ${styles.root}`}>
+        <div className={`col-lg-9 ${styles.table}`}>
           {isLoading ? (
             <div
               className={`d-flex justify-content-center align-items-center h-100`}
             >
-              <div className="spinner-border " role="status">
+              <div className=" spinner-border " role="status">
                 <span className="sr-only"></span>
               </div>
             </div>
@@ -129,16 +126,14 @@ function App() {
               items={usersData}
               sorting={sorting}
               onSorting={handleSorting}
+              pagination={pagination}
+              onPagination={handlePagination}
+              meta={meta}
             />
           )}
         </div>
         <Filters filters={filters} onFiltering={handleFiltering} />
       </div>
-      <Pagination
-        pagination={pagination}
-        onPagination={handlePagination}
-        meta={meta}
-      />
     </div>
   );
 }
