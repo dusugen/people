@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import Filters from "./components/Filters/Filters";
 import axios from "axios";
 import styles from "../src/components/Table/Table.module.scss";
+import Pagination from "./components/Pagination/Pagination";
 
 function App() {
   const [filters, setFilters] = useState({
@@ -19,19 +20,42 @@ function App() {
     field: "",
   });
 
+  const [pagination, setPagination] = useState({
+    page: 0,
+    per_page: 25,
+  });
+
+  console.log(pagination.page, "page");
+
+  const [meta, setMeta] = useState({});
+
   const [isLoading, setIsLoading] = useState(false);
 
   const [usersData, setUsersData] = useState([]);
 
-  const [filtredUsers, setFiltredUsers] = useState([]);
-
   useEffect(() => {
     setIsLoading(true);
+
+    const apiUrl = `https://gorest.co.in/public-api/users`;
+    const searchParams = new URLSearchParams({
+      page: pagination.page + 1,
+      per_page: pagination.per_page,
+      name: filters.name,
+      email: filters.email,
+      gender: filters.gender,
+      status:
+        filters.activeStatus && !filters.inActiveStatus
+          ? "active"
+          : !filters.activeStatus && filters.inActiveStatus
+          ? "inactive"
+          : "",
+    });
+
     axios
-      .get("https://gorest.co.in/public-api/users?page=1&per_page=50")
+      .get(`${apiUrl}?${searchParams.toString()}`)
       .then((res) => {
+        setMeta(res.data.meta.pagination);
         setUsersData(res.data.data);
-        setFiltredUsers(res.data.data);
       })
       .catch((err) => {
         alert(`Failed. Try Later`);
@@ -39,67 +63,38 @@ function App() {
       .finally(() => {
         setIsLoading(false);
       });
-  }, []);
+  }, [filters, pagination]);
 
+  // сортировка по id и status
   useEffect(() => {
-    const filtredItems = usersData
-      .filter((userData) => {
-        if (filters.name.length) {
-          const names = filters.name
-            .toLowerCase()
-            .replace(/\s+/g, " ")
-            .trim()
-            .split(" ");
-          const namesData = names.every((item) => {
-            return userData.name.toLowerCase().includes(item);
-          });
-          return namesData;
-        } else {
-          return true;
+    setUsersData((usersData) => {
+      const copyUserData = [...usersData];
+      copyUserData.sort((itemA, itemB) => {
+        let result = 0;
+        if (sorting.field === "id") {
+          result =
+            sorting.direction === "asc"
+              ? itemA.id - itemB.id
+              : itemB.id - itemA.id;
         }
-      })
-      .filter((userData) => {
-        return filters.email.length
-          ? userData.email.toLowerCase().includes(filters.email.toLowerCase())
-          : true;
-      })
-      .filter((userData) => {
-        return filters.gender.length
-          ? userData.gender === filters.gender
-          : true;
-      })
-      .filter((userData) => {
-        return filters.activeStatus && !filters.inActiveStatus
-          ? userData.status === "active"
-          : true;
-      })
-      .filter((userData) => {
-        return filters.inActiveStatus && !filters.activeStatus
-          ? userData.status === "inactive"
-          : true;
+        if (sorting.field === "status") {
+          result =
+            sorting.direction === "asc"
+              ? itemA.status.localeCompare(itemB.status)
+              : itemB.status.localeCompare(itemA.status);
+        }
+        return result;
       });
-
-    // сортировка по id и status
-    filtredItems.sort((itemA, itemB) => {
-      if (sorting.field === "id") {
-        return sorting.direction === "asc"
-          ? itemA.id - itemB.id
-          : itemB.id - itemA.id;
-      }
-      if (sorting.field === "status") {
-        return sorting.direction === "asc"
-          ? itemA.status.localeCompare(itemB.status)
-          : itemB.status.localeCompare(itemA.status);
-      }
+      return copyUserData;
     });
-    setFiltredUsers(filtredItems);
-  }, [filters, sorting, usersData]);
+  }, [sorting]);
 
   const handleFiltering = useCallback(
     (newFilters) => {
       setFilters({ ...filters, ...newFilters });
+      setPagination({ ...pagination, page: 0 });
     },
-    [filters]
+    [filters, pagination]
   );
 
   const handleSorting = useCallback(
@@ -107,6 +102,13 @@ function App() {
       setSorting({ ...sorting, ...params });
     },
     [sorting]
+  );
+
+  const handlePagination = useCallback(
+    (params) => {
+      setPagination({ ...pagination, ...params });
+    },
+    [pagination]
   );
 
   return (
@@ -124,7 +126,7 @@ function App() {
             </div>
           ) : (
             <Table
-              items={filtredUsers}
+              items={usersData}
               sorting={sorting}
               onSorting={handleSorting}
             />
@@ -132,6 +134,11 @@ function App() {
         </div>
         <Filters filters={filters} onFiltering={handleFiltering} />
       </div>
+      <Pagination
+        pagination={pagination}
+        onPagination={handlePagination}
+        meta={meta}
+      />
     </div>
   );
 }

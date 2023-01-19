@@ -2,6 +2,7 @@ import React, { useCallback, useMemo } from "react";
 import Employee from "./components/Employee";
 import styles from "./Table.module.scss";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import Pagination from "../Pagination/Pagination";
 
 const Table = React.memo(function Table({ items, sorting, onSorting }) {
   const users = useMemo(() => {
