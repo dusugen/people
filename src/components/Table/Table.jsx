@@ -1,17 +1,25 @@
-import React from "react";
+import React, { useCallback, useMemo } from "react";
 import Employee from "./components/Employee";
 import styles from "./Table.module.scss";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
-function Table({ items, sorting, onSorting }) {
-  const users = items.map((item) => <Employee key={item.id} {...item} />);
-
-  const handleSort = (value) => {
-    onSorting({
-      ...value,
-      direction: sorting.direction === "asc" ? "desc" : "asc",
+const Table = React.memo(function Table({ items, sorting, onSorting }) {
+  const users = useMemo(() => {
+    const usersData = items.map((item) => {
+      return <Employee key={item.id} {...item} />;
     });
-  };
+    return usersData;
+  }, [items]);
+
+  const handleSort = useCallback(
+    (value) => {
+      onSorting({
+        ...value,
+        direction: sorting.direction === "asc" ? "desc" : "asc",
+      });
+    },
+    [sorting, onSorting]
+  );
 
   return (
     <table className={`table table-hover ${styles.table}`}>
@@ -24,12 +32,12 @@ function Table({ items, sorting, onSorting }) {
               }}
             >
               <span>Id</span>
-              {sorting.field === "id" && sorting.direction === "asc" ? (
-                <i className={`bi bi-arrow-up ${styles.img}`}></i>
-              ) : sorting.field === "id" && sorting.direction === "desc" ? (
-                <i className={`bi bi-arrow-down ${styles.img}`}></i>
-              ) : (
+              {sorting.field !== "id" ? (
                 <i className={`bi bi-chevron-expand ${styles.img}`}></i>
+              ) : sorting.direction === "asc" ? (
+                <i className={`bi bi-arrow-up ${styles.img}`}></i>
+              ) : (
+                <i className={`bi bi-arrow-down ${styles.img}`}></i>
               )}
             </div>
           </th>
@@ -44,12 +52,12 @@ function Table({ items, sorting, onSorting }) {
             }}
           >
             Status
-            {sorting.field === "status" && sorting.direction === "asc" ? (
-              <i className={`bi bi-arrow-up ${styles.img}`}></i>
-            ) : sorting.field === "status" && sorting.direction === "desc" ? (
-              <i className={`bi bi-arrow-down ${styles.img}`}></i>
-            ) : (
+            {sorting.field !== "status" ? (
               <i className={`bi bi-chevron-expand ${styles.img}`}></i>
+            ) : sorting.direction === "asc" ? (
+              <i className={`bi bi-arrow-up ${styles.img}`}></i>
+            ) : (
+              <i className={`bi bi-arrow-down ${styles.img}`}></i>
             )}
           </th>
         </tr>
@@ -57,6 +65,6 @@ function Table({ items, sorting, onSorting }) {
       <tbody>{users}</tbody>
     </table>
   );
-}
+});
 
 export default Table;

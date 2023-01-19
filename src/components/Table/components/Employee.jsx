@@ -1,7 +1,12 @@
-import React from 'react';
+import React from "react";
 
-
-function Employee({id, email, name, gender, status}) {
+const Employee = React.memo(function Employee({
+  id,
+  email,
+  name,
+  gender,
+  status,
+}) {
   return (
     <tr>
       <th scope="row">{id}</th>
@@ -11,6 +16,6 @@ function Employee({id, email, name, gender, status}) {
       <td>{status}</td>
     </tr>
   );
-}
+});
 
 export default Employee;

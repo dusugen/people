@@ -16,12 +16,11 @@ function App() {
 
   const [sorting, setSorting] = useState({
     direction: "",
-    field: "id",
+    field: "",
   });
 
   const [isLoading, setIsLoading] = useState(false);
 
-  // все пользователи полученные с сервера
   const [usersData, setUsersData] = useState([]);
 
   const [filtredUsers, setFiltredUsers] = useState([]);
@@ -33,10 +32,9 @@ function App() {
       .then((res) => {
         setUsersData(res.data.data);
         setFiltredUsers(res.data.data);
-        setIsLoading(false);
       })
       .catch((err) => {
-        alert(JSON.stringify(err));
+        alert(`Failed. Try Later`);
       })
       .finally(() => {
         setIsLoading(false);
@@ -49,11 +47,10 @@ function App() {
         if (filters.name.length) {
           const names = filters.name
             .toLowerCase()
-            .replace(/  +/g, " ")
+            .replace(/\s+/g, " ")
             .trim()
             .split(" ");
           const namesData = names.every((item) => {
-            // ищем наличие всех массивов names в userData.name
             return userData.name.toLowerCase().includes(item);
           });
           return namesData;

@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Button } from "react-bootstrap";
 import styles from "./Filters.module.scss";
 
-function Filters({ onFiltering, filters }) {
-  const handleReset = () => {
+const Filters = React.memo(function Filters({ onFiltering, filters }) {
+  const handleReset = useCallback(() => {
     onFiltering({
       name: "",
       email: "",
@@ -11,7 +11,7 @@ function Filters({ onFiltering, filters }) {
       activeStatus: false,
       inActiveStatus: false,
     });
-  };
+  }, [filters]);
 
   return (
     <div className={`col-lg-3  ${styles.main}`}>
@@ -20,18 +20,18 @@ function Filters({ onFiltering, filters }) {
         className={`form-control mb-3`}
         placeholder={`Name`}
         value={filters.name}
-        onChange={(e) => onFiltering({ ...filters, name: e.target.value })}
+        onChange={(e) => onFiltering({ name: e.target.value })}
       />
       <input
         className={`form-control mb-3`}
         placeholder={`Email`}
         value={filters.email}
-        onChange={(e) => onFiltering({ ...filters, email: e.target.value })}
+        onChange={(e) => onFiltering({ email: e.target.value })}
       />
       <select
         className={`form-select mb-4`}
         aria-label={`Default select example`}
-        onChange={(e) => onFiltering({ ...filters, gender: e.target.value })}
+        onChange={(e) => onFiltering({ gender: e.target.value })}
       >
         <option value={``}>Choose your gender</option>
         <option value={`male`}>Male</option>
@@ -46,10 +46,10 @@ function Filters({ onFiltering, filters }) {
             value="active"
             checked={filters.activeStatus}
             onChange={() => {
-              onFiltering({ ...filters, activeStatus: !filters.activeStatus });
+              onFiltering({ activeStatus: !filters.activeStatus });
             }}
           />
-          <label className="form-check-label" htmlFor="inlineCheckbox1">
+          <label className="form-check-label" htmlFor="activeCheckbox">
             Active
           </label>
         </div>
@@ -60,14 +60,11 @@ function Filters({ onFiltering, filters }) {
             id="inActiveCheckbox"
             checked={filters.inActiveStatus}
             onChange={() => {
-              onFiltering({
-                ...filters,
-                inActiveStatus: !filters.inActiveStatus,
-              });
+              onFiltering({ inActiveStatus: !filters.inActiveStatus });
             }}
             value="inactive"
           />
-          <label className="form-check-label" htmlFor="inlineCheckbox2">
+          <label className="form-check-label" htmlFor="inActiveCheckbox">
             Inactive
           </label>
         </div>
@@ -77,6 +74,6 @@ function Filters({ onFiltering, filters }) {
       </Button>
     </div>
   );
-}
+});
 
 export default Filters;
