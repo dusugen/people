@@ -12,6 +12,7 @@ const Table = React.memo(function Table({
   onPagination,
   meta,
 }) {
+  console.log(meta, "meta");
   const users = useMemo(() => {
     const usersData = items.map((item) => {
       return <Employee key={item.id} {...item} />;

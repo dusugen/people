@@ -1,9 +1,10 @@
 import "./App.css";
 import React, { useCallback, useEffect, useState } from "react";
 import Filters from "./components/Filters/Filters";
-import axios from "axios";
 import styles from "./components/Table/Table.module.scss";
 import Table from "./components/Table/Table";
+import { useResource } from "react-request-hook";
+import { sortUsers } from "./utils";
 
 function App() {
   const [filters, setFilters] = useState({
@@ -24,16 +25,15 @@ function App() {
     per_page: 10,
   });
 
-  const [meta, setMeta] = useState({});
+  const [usersData, setUsersData] = useState(null);
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [users, getUsers] = useResource((params) => ({
+    url: `/users?${params}`,
+    method: "get",
+  }));
 
-  const [usersData, setUsersData] = useState([]);
-
+  // filter by params
   useEffect(() => {
-    setIsLoading(true);
-
-    const apiUrl = `https://gorest.co.in/public-api/users`;
     const searchParams = new URLSearchParams({
       page: pagination.page + 1,
       per_page: pagination.per_page,
@@ -47,44 +47,19 @@ function App() {
           ? "inactive"
           : "",
     });
+    getUsers(searchParams.toString());
+  }, [pagination, filters]);
 
-    axios
-      .get(`${apiUrl}?${searchParams.toString()}`)
-      .then((res) => {
-        setMeta(res.data.meta.pagination);
-        setUsersData(res.data.data);
-      })
-      .catch((err) => {
-        alert(`Failed. Try Later`);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, [filters, pagination]);
-
-  // сортировка по id и status
+  // sorting by ID and STATUS
   useEffect(() => {
-    setUsersData((usersData) => {
-      const copyUserData = [...usersData];
-      copyUserData.sort((itemA, itemB) => {
-        let result = 0;
-        if (sorting.field === "id") {
-          result =
-            sorting.direction === "asc"
-              ? itemA.id - itemB.id
-              : itemB.id - itemA.id;
-        }
-        if (sorting.field === "status") {
-          result =
-            sorting.direction === "asc"
-              ? itemA.status.localeCompare(itemB.status)
-              : itemB.status.localeCompare(itemA.status);
-        }
-        return result;
-      });
-      return copyUserData;
-    });
-  }, [sorting]);
+    if (users.isLoading) return;
+
+    if (users.data) {
+      setUsersData(
+        sortUsers(users.data.data, sorting.field, sorting.direction)
+      );
+    }
+  }, [users, sorting]);
 
   const handleFiltering = useCallback(
     (newFilters) => {
@@ -113,7 +88,7 @@ function App() {
       <h1 className={" display-3 fw-bold text-center mb-4"}>People</h1>
       <div className={`row ${styles.root}`}>
         <div className={`col-lg-9 ${styles.table}`}>
-          {isLoading ? (
+          {users.isLoading ? (
             <div
               className={`d-flex justify-content-center align-items-center h-100`}
             >
@@ -121,16 +96,18 @@ function App() {
                 <span className="sr-only"></span>
               </div>
             </div>
-          ) : (
+          ) : usersData ? (
             <Table
               items={usersData}
               sorting={sorting}
               onSorting={handleSorting}
               pagination={pagination}
               onPagination={handlePagination}
-              meta={meta}
+              meta={users.data.meta.pagination}
             />
-          )}
+          ) : users.error ? (
+            <div>Error</div>
+          ) : null}
         </div>
         <Filters filters={filters} onFiltering={handleFiltering} />
       </div>

@@ -9,11 +9,11 @@ function Pagination({ pagination, onPagination, meta }) {
       <ReactPaginate
         className={styles.root}
         breakLabel="..."
-        nextLabel=">"
+        nextLabel="→"
         onPageChange={(event) => onPagination({ page: event.selected })}
         pageRangeDisplayed={3}
         pageCount={totalCount}
-        previousLabel="<"
+        previousLabel="←"
         forcePage={pagination.page}
         renderOnZeroPageCount={null}
       />
