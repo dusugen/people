@@ -3,8 +3,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import Filters from "./components/Filters/Filters";
 import styles from "./components/Table/Table.module.scss";
 import Table from "./components/Table/Table";
-import { useResource } from "react-request-hook";
 import { sortUsers } from "./utils";
+import { useFetch } from "./hooks/useFetch";
 
 function App() {
   const [filters, setFilters] = useState({
@@ -27,30 +27,28 @@ function App() {
 
   const [usersData, setUsersData] = useState(null);
 
-  const [users, getUsers] = useResource((params) => ({
-    url: `/users?${params}`,
-    method: "get",
-  }));
-
   // filter by params
-  useEffect(() => {
-    const searchParams = new URLSearchParams({
-      page: pagination.page + 1,
-      per_page: pagination.per_page,
-      name: filters.name,
-      email: filters.email,
-      gender: filters.gender,
-      status:
-        filters.activeStatus && !filters.inActiveStatus
-          ? "active"
-          : !filters.activeStatus && filters.inActiveStatus
-          ? "inactive"
-          : "",
-    });
-    getUsers(searchParams.toString());
-  }, [pagination, filters]);
+  const searchParams = new URLSearchParams({
+    page: pagination.page + 1,
+    per_page: pagination.per_page,
+    name: filters.name,
+    email: filters.email,
+    gender: filters.gender,
+    status:
+      filters.activeStatus && !filters.inActiveStatus
+        ? "active"
+        : !filters.activeStatus && filters.inActiveStatus
+        ? "inactive"
+        : "",
+  });
 
-  // sorting by ID and STATUS
+  const users = useFetch({
+    url: `https://gorest.co.in/public-api/users`,
+    params: searchParams.toString(),
+    method: "get",
+  });
+
+  // Sorting
   useEffect(() => {
     if (users.isLoading) return;
 
@@ -59,7 +57,7 @@ function App() {
         sortUsers(users.data.data, sorting.field, sorting.direction)
       );
     }
-  }, [users, sorting]);
+  }, [users.data, users.isLoading, sorting]);
 
   const handleFiltering = useCallback(
     (newFilters) => {
