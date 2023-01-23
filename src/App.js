@@ -5,6 +5,8 @@ import styles from "./components/Table/Table.module.scss";
 import Table from "./components/Table/Table";
 import { sortUsers } from "./utils";
 import { useFetch } from "./hooks/useFetch";
+import Header from "./components/Header/Header";
+import { Route, Routes } from "react-router-dom";
 
 function App() {
   const [filters, setFilters] = useState({
@@ -83,7 +85,7 @@ function App() {
 
   return (
     <div className="container-lg container-md">
-      <h1 className={" display-3 fw-bold text-center mb-4"}>People</h1>
+      <Header />
       <div className={`row ${styles.root}`}>
         <div className={`col-lg-9 ${styles.table}`}>
           {users.isLoading ? (
@@ -95,19 +97,33 @@ function App() {
               </div>
             </div>
           ) : usersData ? (
-            <Table
-              items={usersData}
-              sorting={sorting}
-              onSorting={handleSorting}
-              pagination={pagination}
-              onPagination={handlePagination}
-              meta={users.data.meta.pagination}
-            />
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <Table
+                    items={usersData}
+                    sorting={sorting}
+                    onSorting={handleSorting}
+                    pagination={pagination}
+                    onPagination={handlePagination}
+                    meta={users.data.meta.pagination}
+                  />
+                }
+              />
+            </Routes>
           ) : users.error ? (
             <div>Error</div>
           ) : null}
         </div>
-        <Filters filters={filters} onFiltering={handleFiltering} />
+        <Routes>
+          <Route
+            path={"/"}
+            element={
+              <Filters filters={filters} onFiltering={handleFiltering} />
+            }
+          />
+        </Routes>
       </div>
     </div>
   );

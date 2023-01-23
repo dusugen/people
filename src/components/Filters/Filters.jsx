@@ -1,6 +1,7 @@
 import React, { useCallback } from "react";
 import { Button } from "react-bootstrap";
 import styles from "./Filters.module.scss";
+import { Link } from "react-router-dom";
 
 const Filters = React.memo(function Filters({ onFiltering, filters }) {
   const handleReset = useCallback(() => {
@@ -70,7 +71,9 @@ const Filters = React.memo(function Filters({ onFiltering, filters }) {
         </div>
       </div>
       <Button className={` btn-danger btn-lg`} onClick={handleReset}>
-        Reset
+        <Link className={styles.link} to={"/"}>
+          Reset
+        </Link>
       </Button>
     </div>
   );
