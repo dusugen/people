@@ -7,6 +7,7 @@ import { sortUsers } from "./utils";
 import { useFetch } from "./hooks/useFetch";
 import Header from "./components/Header/Header";
 import { Route, Routes } from "react-router-dom";
+import AddUser from "./components/AddUser/AddUser";
 
 function App() {
   const [filters, setFilters] = useState({
@@ -123,6 +124,7 @@ function App() {
               <Filters filters={filters} onFiltering={handleFiltering} />
             }
           />
+          <Route path={"/addUser"} element={<AddUser />} />
         </Routes>
       </div>
     </div>
