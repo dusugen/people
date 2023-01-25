@@ -10,7 +10,7 @@ export const schema = yup.object({
     .required("Please, enter your email")
     .email("Invalid email")
     .lowercase()
-    .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)
+    .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, "Enter correct email")
     .trim(),
   gender: yup.mixed().required("Please, choose your gender"),
 });

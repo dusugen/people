@@ -5,6 +5,7 @@ import ReactSelect from "react-select";
 import styles from "./AddUser.module.scss";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from "./AddUserSchema";
+import useMutate from "../../hooks/useMutate";
 
 const options = [
   {
@@ -18,9 +19,16 @@ const options = [
 ];
 
 const AddUser = () => {
+  const [response, createUser] = useMutate({
+    method: "post",
+    url: `https://gorest.co.in/public-api/users`,
+  });
+
+  console.log(response, "response");
+
   const {
     register,
-    formState: { errors },
+    formState: { errors, isValid, isSubmitting },
     handleSubmit,
     setValue,
     reset,
@@ -31,13 +39,14 @@ const AddUser = () => {
   });
 
   const onSubmit = (data) => {
-    reset();
-    setValue("gender", null);
-    console.log({
+    createUser({
       ...data,
       gender: data.gender.value,
       status: data.status ? "active" : "inactive",
     });
+
+    reset();
+    setValue("gender", null);
   };
 
   return (
@@ -110,10 +119,14 @@ const AddUser = () => {
         </label>
       </div>
       <div className="d-flex justify-content-end">
-        <button type="submit" className="btn btn-outline-success me-4">
+        <button
+          type="submit"
+          className="btn  btn-outline-success me-4"
+          disabled={!isValid || isSubmitting}
+        >
           Confirm
         </button>
-        <Link to={"/"} type="submit" className="btn btn-outline-danger">
+        <Link to={"/"} type="submit" className="btn  btn-outline-danger">
           Cancel
         </Link>
       </div>
