@@ -1,10 +1,10 @@
 import React, { useCallback, useMemo } from "react";
-import styles from "./Table.module.scss";
+import styles from "./UsersTable.module.scss";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Employee from "./components/Employee/Employee";
 import Pagination from "./components/Pagination/Pagination";
 
-const Table = React.memo(function Table({
+const UsersTable = React.memo(function Table({
   items,
   sorting,
   onSorting,
@@ -13,9 +13,7 @@ const Table = React.memo(function Table({
   meta,
 }) {
   const users = useMemo(() => {
-    const usersData = items.map((item) => {
-      return <Employee key={item.id} {...item} />;
-    });
+    const usersData = items.map((item) => <Employee key={item.id} {...item} />);
     return usersData;
   }, [items]);
 
@@ -82,4 +80,4 @@ const Table = React.memo(function Table({
   );
 });
 
-export default Table;
+export default UsersTable;

@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const Employee = React.memo(function Employee({
   id,
@@ -7,8 +8,12 @@ const Employee = React.memo(function Employee({
   gender,
   status,
 }) {
+  const navigate = useNavigate();
+  const handleRedirect = () => {
+    navigate(`/editUser/${id}`);
+  };
   return (
-    <tr>
+    <tr onClick={handleRedirect} style={{ cursor: "pointer" }}>
       <th scope="row">{id}</th>
       <th>{email}</th>
       <td>{name}</td>

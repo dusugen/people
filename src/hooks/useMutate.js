@@ -9,27 +9,29 @@ function useMutate({ url, method }) {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const sendRequest = async (data) => {
-    try {
-      setIsLoading(true);
-      const response = await axios({
-        method,
-        url,
-        data,
+  const sendRequest = (data) => {
+    setIsLoading(true);
+
+    return axios({
+      method,
+      url,
+      data,
+    })
+      .then((response) => {
+        if (response.data.code >= 400) {
+          setError(new Error(response.data.message));
+        } else {
+          setData(response.data);
+        }
+      })
+      .catch((err) => {
+        setError(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
-      if (response.data.code >= 400) {
-        alert(response.data.data.message);
-      }
-      if (response.data.code < 400 && response.data.code >= 200) {
-        setData(response.data);
-      }
-    } catch (err) {
-      setError(err);
-      alert(error);
-    } finally {
-      setIsLoading(false);
-    }
   };
+
   return [{ data, error, isLoading }, sendRequest];
 }
 

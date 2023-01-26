@@ -1,12 +1,12 @@
 import React from "react";
-import styles from "../Table/Table.module.scss";
+import styles from "../Table/UsersTable.module.scss";
 import { Link, useLocation } from "react-router-dom";
 
 function Header() {
   const { pathname } = useLocation();
   return (
     <nav className="navbar navbar-expand-lg navbar-light  justify-content-between ">
-      <div className="container-fluid p-0 mb-3 flex-nowrap">
+      <div className="container-fluid p-0 mb-1 flex-nowrap">
         <Link
           className="navbar-brand fw-bolder me-0 p-0 d-flex align-items-center"
           to="/"
