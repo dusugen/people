@@ -20,7 +20,6 @@ function UserForm({ data, onSubmit, usersData, onDelete }) {
 
   useEffect(() => {
     if (data) {
-      console.log(data.data.status, "data");
       reset({
         ...data.data,
         status: data.data.status === "active" ? true : false,

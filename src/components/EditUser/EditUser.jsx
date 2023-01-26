@@ -1,12 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useContext } from "react";
 import UserForm from "../AddUser/components/UserForm";
 import { useNavigate, useParams } from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
 import useMutate from "../../hooks/useMutate";
 import Spinner from "../Table/components/Spinner/Spinner";
-import { showMessage } from "../../utils";
+import { ShowContext } from "../../context";
 
 function EditUser() {
+  const { setToast } = useContext(ShowContext);
+
   const navigate = useNavigate();
   const { id } = useParams();
   const { data, isLoading, error } = useFetch({
@@ -19,7 +21,7 @@ function EditUser() {
     url: `https://gorest.co.in/public-api/users/${id}`,
   });
 
-  const [{ chooseUser }, deletedUser] = useMutate({
+  const [{ chooseUser }, deleteUser] = useMutate({
     method: "delete",
     url: `https://gorest.co.in/public-api/users/${id}`,
   });
@@ -29,29 +31,39 @@ function EditUser() {
       ...data,
       gender: data.gender.value,
       status: data.status ? "active" : "inactive",
-    });
+    })
+      .then((res) => {
+        setToast({
+          status: true,
+          message: "User was changed",
+          type: "success",
+        });
+        navigate("/");
+      })
+      .catch((err) => {
+        setToast({
+          status: true,
+          message: `${err}!`,
+          type: "danger",
+        });
+      });
   };
 
   const handleDelete = () => {
     const request = window.confirm(`Do you want to delete user ${id}?`);
     if (request) {
-      deletedUser().then((res) => {
-        alert("User deleted.");
-        navigate("/");
-      });
+      deleteUser()
+        .then((res) => {
+          setToast({
+            status: true,
+            message: "User was deleted",
+            type: "success",
+          });
+          navigate("/");
+        })
+        .catch((err) => {});
     }
   };
-
-  useEffect(() => {
-    if (user.error) {
-      showMessage({ type: "error", message: user.error.message });
-    }
-
-    if (user.data) {
-      showMessage({ type: "success", message: "Success !" });
-      navigate("/");
-    }
-  }, [user.error, user.data]);
 
   return (
     <div>

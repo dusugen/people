@@ -10,26 +10,39 @@ function useMutate({ url, method }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const sendRequest = (data) => {
-    setIsLoading(true);
+    const promise = new Promise((resolve, reject) => {
+      setIsLoading(true);
 
-    return axios({
-      method,
-      url,
-      data,
-    })
-      .then((response) => {
-        if (response.data.code >= 400) {
-          setError(new Error(response.data.message));
-        } else {
-          setData(response.data);
-        }
+      axios({
+        method,
+        url,
+        data,
       })
-      .catch((err) => {
-        setError(err);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+        .then((response) => {
+          const {
+            data: { code, message, data },
+          } = response;
+
+          const errorMessage = message || code;
+
+          if (code >= 400) {
+            setError(new Error(errorMessage));
+            reject(errorMessage);
+          } else {
+            setData(data);
+            resolve(data);
+          }
+        })
+        .catch((err) => {
+          setError(err);
+          reject(err.message);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    });
+
+    return promise;
   };
 
   return [{ data, error, isLoading }, sendRequest];
