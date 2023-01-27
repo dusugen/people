@@ -30,7 +30,7 @@ function useMutate({ url, method }) {
             reject(errorMessage);
           } else {
             setData(data);
-            resolve(data);
+            resolve(data || true);
           }
         })
         .catch((err) => {

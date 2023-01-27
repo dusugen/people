@@ -7,8 +7,9 @@ import AddUser from "./components/AddUser/AddUser";
 import EditUser from "./components/EditUser/EditUser";
 import UsersList from "./components/UsersList/UsersList";
 import NotFound from "./components/NotFound/NotFound";
-import ShowToast from "./components/Toast/ShowToast";
+import ShowToast from "./components/utility/ShowToast";
 import { ShowContext } from "./context";
+import ConfirmModal from "./components/utility/ConfirmModal";
 
 function App() {
   const [toastStatus, setToastStatus] = useState(false);
@@ -24,9 +25,15 @@ function App() {
   return (
     <div className="container-lg container-md">
       <ShowContext.Provider
-        value={{ toastStatus, toastType, toastMessage, setToast }}
+        value={{
+          toastStatus,
+          toastType,
+          toastMessage,
+          setToast,
+        }}
       >
         <Header />
+        <ConfirmModal />
         <ShowToast />
         <Routes>
           <Route path={"/"} element={<UsersList />} />

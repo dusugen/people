@@ -36,6 +36,11 @@ const AddUser = () => {
       });
   };
 
-  return <UserForm onSubmit={handleSubmit} usersData={user} />;
+  return (
+    <div>
+      <div className={`h2 text-center mb-4 fst-italic`}>Add user</div>
+      <UserForm onSubmit={handleSubmit} usersData={user} />
+    </div>
+  );
 };
 export default AddUser;

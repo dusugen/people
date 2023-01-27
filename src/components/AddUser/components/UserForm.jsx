@@ -1,12 +1,33 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import ReactSelect from "react-select";
 import { Link } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from "../AddUserSchema";
 import styles from "./UserForm.module.scss";
+import ConfirmModal from "../../utility/ConfirmModal";
 
-function UserForm({ data, onSubmit, usersData, onDelete }) {
+function UserForm({
+  data,
+  onSubmit,
+  usersData,
+  onDelete,
+  disableBtn,
+  deletedUser,
+}) {
+  const options = [
+    {
+      value: "male",
+      label: "Male",
+    },
+    {
+      value: "female",
+      label: "Female",
+    },
+  ];
+
+  const [modalShow, setModalShow] = useState(false);
+
   const {
     register,
     formState: { errors, isValid },
@@ -17,6 +38,25 @@ function UserForm({ data, onSubmit, usersData, onDelete }) {
     mode: "onBlur",
     resolver: yupResolver(schema),
   });
+
+  const handleForm = (form) => {
+    onSubmit(form);
+  };
+
+  const handleDeleteClick = () => {
+    setModalShow(true);
+  };
+
+  const handleDeleteCancel = () => {
+    setModalShow(false);
+  };
+
+  const handleDeleteConfirm = () => {
+    onDelete();
+    if (deletedUser.data) {
+      setModalShow(false);
+    }
+  };
 
   useEffect(() => {
     if (data) {
@@ -30,21 +70,6 @@ function UserForm({ data, onSubmit, usersData, onDelete }) {
       });
     }
   }, [data]);
-
-  const options = [
-    {
-      value: "male",
-      label: "Male",
-    },
-    {
-      value: "female",
-      label: "Female",
-    },
-  ];
-
-  const handleForm = (form) => {
-    onSubmit(form);
-  };
 
   return (
     <form onSubmit={handleSubmit(handleForm)}>
@@ -122,7 +147,7 @@ function UserForm({ data, onSubmit, usersData, onDelete }) {
               type={"button"}
               className="btn  btn-outline-danger me-4"
               disabled={!isValid || usersData.isLoading}
-              onClick={onDelete}
+              onClick={handleDeleteClick}
             >
               Delete
             </button>
@@ -141,6 +166,14 @@ function UserForm({ data, onSubmit, usersData, onDelete }) {
           </Link>
         </div>
       </div>
+      {modalShow && (
+        <ConfirmModal
+          show={modalShow}
+          disableBtn={disableBtn}
+          onConfirm={handleDeleteConfirm}
+          onClose={handleDeleteCancel}
+        />
+      )}
     </form>
   );
 }

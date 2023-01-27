@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import UserForm from "../AddUser/components/UserForm";
 import { useNavigate, useParams } from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
@@ -10,7 +10,9 @@ function EditUser() {
   const { setToast } = useContext(ShowContext);
 
   const navigate = useNavigate();
+
   const { id } = useParams();
+
   const { data, isLoading, error } = useFetch({
     url: `https://gorest.co.in/public-api/users/${id}`,
     method: "get",
@@ -21,10 +23,12 @@ function EditUser() {
     url: `https://gorest.co.in/public-api/users/${id}`,
   });
 
-  const [{ chooseUser }, deleteUser] = useMutate({
+  const [deletedUser, removeUser] = useMutate({
     method: "delete",
     url: `https://gorest.co.in/public-api/users/${id}`,
   });
+
+  const [disableBtn, setDisableBtn] = useState(false);
 
   const handleSubmit = (data) => {
     updateUser({
@@ -50,23 +54,27 @@ function EditUser() {
   };
 
   const handleDelete = () => {
-    const request = window.confirm(`Do you want to delete user ${id}?`);
-    if (request) {
-      deleteUser()
-        .then((res) => {
-          setToast({
-            status: true,
-            message: "User was deleted",
-            type: "success",
-          });
-          navigate("/");
-        })
-        .catch((err) => {});
-    }
+    setDisableBtn(true);
+    removeUser()
+      .then((res) => {
+        setToast({
+          status: true,
+          message: "User was deleted",
+          type: "success",
+        });
+        navigate("/");
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setDisableBtn(false);
+      });
   };
 
   return (
     <div>
+      <div className={`h2 mb-4 text-center fst-italic`}> Edit user</div>
       {isLoading ? (
         <Spinner />
       ) : error ? (
@@ -74,8 +82,10 @@ function EditUser() {
       ) : data ? (
         <UserForm
           data={data}
-          onSubmit={handleSubmit}
+          deletedUser={deletedUser}
           usersData={user}
+          disableBtn={disableBtn}
+          onSubmit={handleSubmit}
           onDelete={handleDelete}
         />
       ) : null}
