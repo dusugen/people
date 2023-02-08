@@ -7,28 +7,32 @@ import AddUser from "./components/AddUser/AddUser";
 import EditUser from "./components/EditUser/EditUser";
 import UsersList from "./components/UsersList/UsersList";
 import NotFound from "./components/NotFound/NotFound";
-import ShowToast from "./components/utility/ShowToast";
-import { ShowContext } from "./context";
-import ConfirmModal from "./components/utility/ConfirmModal";
+import ShowToast from "./components/shared/ShowToast";
+import { appContext } from "./context";
+import ConfirmModal from "./components/shared/ConfirmModal";
 
 function App() {
-  const [toastStatus, setToastStatus] = useState(false);
-  const [toastType, setToastType] = useState("info");
-  const [toastMessage, setToastMessage] = useState("");
+  const [toastData, setToastData] = useState({
+    status: false,
+    type: "info",
+    message: "",
+    title: "",
+  });
 
-  const setToast = useCallback(({ type, message, status }) => {
-    setToastType(type);
-    setToastMessage(message);
-    setToastStatus(status || false);
+  const setToast = useCallback(({ type, message, status, title }) => {
+    setToastData({
+      status: status || false,
+      type: type || "",
+      message: message || "",
+      title: title || "Notification",
+    });
   }, []);
 
   return (
-    <div className="container-lg container-md">
-      <ShowContext.Provider
+    <div className="container-lg">
+      <appContext.Provider
         value={{
-          toastStatus,
-          toastType,
-          toastMessage,
+          toastData,
           setToast,
         }}
       >
@@ -41,7 +45,7 @@ function App() {
           <Route path={"/editUser/:id"} element={<EditUser />} />
           <Route path={"/*"} element={<NotFound />} />
         </Routes>
-      </ShowContext.Provider>
+      </appContext.Provider>
     </div>
   );
 }

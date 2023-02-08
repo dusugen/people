@@ -1,13 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const Employee = React.memo(function Employee({
-  id,
-  email,
-  name,
-  gender,
-  status,
-}) {
+const UserRow = React.memo(({ id, email, name, gender, status }) => {
   const navigate = useNavigate();
   const handleRedirect = () => {
     navigate(`/editUser/${id}`);
@@ -23,4 +17,4 @@ const Employee = React.memo(function Employee({
   );
 });
 
-export default Employee;
+export default UserRow;

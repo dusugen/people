@@ -1,15 +1,15 @@
 import axios from "axios";
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import config from "../config.json";
 
-axios.defaults.headers.common["Authorization"] =
-  "Bearer a019c9536eedd587466d73b86bef4d9ad520c34ec6196cb63c67417e971612f1";
+axios.defaults.headers.common["Authorization"] = `${config.apiToken}`;
 
 function useMutate({ url, method }) {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const sendRequest = (data) => {
+  const sendRequest = useCallback((data) => {
     const promise = new Promise((resolve, reject) => {
       setIsLoading(true);
 
@@ -24,13 +24,14 @@ function useMutate({ url, method }) {
           } = response;
 
           const errorMessage = message || code;
+          const result = data || true;
 
           if (code >= 400) {
             setError(new Error(errorMessage));
             reject(errorMessage);
           } else {
-            setData(data);
-            resolve(data || true);
+            setData(result);
+            resolve(result);
           }
         })
         .catch((err) => {
@@ -43,7 +44,7 @@ function useMutate({ url, method }) {
     });
 
     return promise;
-  };
+  }, []);
 
   return [{ data, error, isLoading }, sendRequest];
 }

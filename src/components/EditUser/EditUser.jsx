@@ -3,32 +3,31 @@ import UserForm from "../AddUser/components/UserForm";
 import { useNavigate, useParams } from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
 import useMutate from "../../hooks/useMutate";
-import Spinner from "../Table/components/Spinner/Spinner";
-import { ShowContext } from "../../context";
+import Spinner from "../shared/Spinner/Spinner";
+import { appContext } from "../../context";
+import config from "../../config.json";
 
 function EditUser() {
-  const { setToast } = useContext(ShowContext);
+  const { setToast } = useContext(appContext);
 
   const navigate = useNavigate();
 
   const { id } = useParams();
 
   const { data, isLoading, error } = useFetch({
-    url: `https://gorest.co.in/public-api/users/${id}`,
+    url: `${config.apiUrl}${id}`,
     method: "get",
   });
 
-  const [user, updateUser] = useMutate({
+  const [updatedUser, updateUser] = useMutate({
     method: "put",
-    url: `https://gorest.co.in/public-api/users/${id}`,
+    url: `${config.apiUrl}${id}`,
   });
 
   const [deletedUser, removeUser] = useMutate({
     method: "delete",
-    url: `https://gorest.co.in/public-api/users/${id}`,
+    url: `${config.apiUrl}${id}`,
   });
-
-  const [disableBtn, setDisableBtn] = useState(false);
 
   const handleSubmit = (data) => {
     updateUser({
@@ -53,8 +52,7 @@ function EditUser() {
       });
   };
 
-  const handleDelete = () => {
-    setDisableBtn(true);
+  const handleDelete = useCallback(() => {
     removeUser()
       .then((res) => {
         setToast({
@@ -65,12 +63,13 @@ function EditUser() {
         navigate("/");
       })
       .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        setDisableBtn(false);
+        setToast({
+          status: true,
+          message: `User delete failed. ${err}!`,
+          type: "danger",
+        });
       });
-  };
+  }, []);
 
   return (
     <div>
@@ -78,13 +77,11 @@ function EditUser() {
       {isLoading ? (
         <Spinner />
       ) : error ? (
-        <div>Error</div>
+        <div>{error?.message ?? "Error"}</div>
       ) : data ? (
         <UserForm
           data={data}
-          deletedUser={deletedUser}
-          usersData={user}
-          disableBtn={disableBtn}
+          isLoading={deletedUser.isLoading || updatedUser.isLoading}
           onSubmit={handleSubmit}
           onDelete={handleDelete}
         />

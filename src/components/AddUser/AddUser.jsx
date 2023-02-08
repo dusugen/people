@@ -1,19 +1,21 @@
-import React, { useContext } from "react";
+import React, { useCallback, useContext } from "react";
 
 import useMutate from "../../hooks/useMutate";
 import UserForm from "./components/UserForm";
 import { useNavigate } from "react-router-dom";
-import { ShowContext } from "../../context";
+import { appContext } from "../../context";
+import config from "../../config.json";
 
 const AddUser = () => {
-  const { setToast } = useContext(ShowContext);
+  const { setToast } = useContext(appContext);
   const navigate = useNavigate();
 
-  const [user, createUser] = useMutate({
+  const [userData, createUser] = useMutate({
     method: "post",
-    url: `https://gorest.co.in/public-api/users/`,
+    url: `${config.apiUrl}`,
   });
-  const handleSubmit = (data) => {
+
+  const handleSubmit = useCallback((data) => {
     createUser({
       ...data,
       gender: data.gender.value,
@@ -22,8 +24,9 @@ const AddUser = () => {
       .then((res) => {
         setToast({
           status: true,
-          message: "User was changed",
+          message: "User was added",
           type: "success",
+          title: "Add user",
         });
         navigate(`/editUser/${res.id}`);
       })
@@ -32,14 +35,15 @@ const AddUser = () => {
           status: true,
           message: `${err.message}`,
           type: "danger",
+          title: "Add user",
         });
       });
-  };
+  }, []);
 
   return (
     <div>
       <div className={`h2 text-center mb-4 fst-italic`}>Add user</div>
-      <UserForm onSubmit={handleSubmit} usersData={user} />
+      <UserForm onSubmit={handleSubmit} {...userData} />
     </div>
   );
 };

@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 import styles from "./Filters.module.scss";
 import { Link } from "react-router-dom";
 
-const Filters = React.memo(function Filters({ onFiltering, filters }) {
+const Filters = React.memo(({ onFiltering, filters }) => {
   const handleReset = useCallback(() => {
     onFiltering({
       name: "",

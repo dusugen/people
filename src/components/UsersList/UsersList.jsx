@@ -4,8 +4,9 @@ import { sortUsers } from "../../utils";
 import UsersTable from "../Table/UsersTable";
 import Filters from "../Filters/Filters";
 import styles from "../Table/UsersTable.module.scss";
-import Spinner from "../Table/components/Spinner/Spinner";
+import Spinner from "../shared/Spinner/Spinner";
 import NotFound from "../NotFound/NotFound";
+import config from "../../config.json";
 
 function UsersList() {
   const [filters, setFilters] = useState({
@@ -44,7 +45,7 @@ function UsersList() {
   });
 
   const users = useFetch({
-    url: `https://gorest.co.in/public-api/users`,
+    url: `${config.apiUrl}`,
     params: searchParams.toString(),
     method: "get",
   });

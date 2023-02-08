@@ -15,11 +15,3 @@ export const sortUsers = (data, field, direction) => {
   });
   return copyData;
 };
-
-export const showMessage = ({ type, message }) => {
-  if (type === "error") {
-    alert(message);
-  } else if (type === "success") {
-    alert(message);
-  }
-};
