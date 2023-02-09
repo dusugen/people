@@ -2,7 +2,7 @@ import axios from "axios";
 import { useCallback, useState } from "react";
 import config from "../config.json";
 
-axios.defaults.headers.common["Authorization"] = `${config.apiToken}`;
+axios.defaults.headers.common["Authorization"] = `Bearer ${config.apiToken}`;
 
 function useMutate({ url, method }) {
   const [data, setData] = useState(null);

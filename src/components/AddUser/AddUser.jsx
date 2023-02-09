@@ -3,16 +3,16 @@ import React, { useCallback, useContext } from "react";
 import useMutate from "../../hooks/useMutate";
 import UserForm from "./components/UserForm";
 import { useNavigate } from "react-router-dom";
-import { appContext } from "../../context";
+import { AppContext } from "../../context";
 import config from "../../config.json";
 
 const AddUser = () => {
-  const { setToast } = useContext(appContext);
+  const { setToast } = useContext(AppContext);
   const navigate = useNavigate();
 
   const [userData, createUser] = useMutate({
     method: "post",
-    url: `${config.apiUrl}`,
+    url: config.apiUrl,
   });
 
   const handleSubmit = useCallback((data) => {

@@ -8,7 +8,7 @@ import EditUser from "./components/EditUser/EditUser";
 import UsersList from "./components/UsersList/UsersList";
 import NotFound from "./components/NotFound/NotFound";
 import ShowToast from "./components/shared/ShowToast";
-import { appContext } from "./context";
+import { AppContext } from "./context";
 import ConfirmModal from "./components/shared/ConfirmModal";
 
 function App() {
@@ -30,7 +30,7 @@ function App() {
 
   return (
     <div className="container-lg">
-      <appContext.Provider
+      <AppContext.Provider
         value={{
           toastData,
           setToast,
@@ -45,7 +45,7 @@ function App() {
           <Route path={"/editUser/:id"} element={<EditUser />} />
           <Route path={"/*"} element={<NotFound />} />
         </Routes>
-      </appContext.Provider>
+      </AppContext.Provider>
     </div>
   );
 }

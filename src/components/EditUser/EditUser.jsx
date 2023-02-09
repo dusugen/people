@@ -4,29 +4,29 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
 import useMutate from "../../hooks/useMutate";
 import Spinner from "../shared/Spinner/Spinner";
-import { appContext } from "../../context";
+import { AppContext } from "../../context";
 import config from "../../config.json";
 
 function EditUser() {
-  const { setToast } = useContext(appContext);
+  const { setToast } = useContext(AppContext);
 
   const navigate = useNavigate();
 
   const { id } = useParams();
 
   const { data, isLoading, error } = useFetch({
-    url: `${config.apiUrl}${id}`,
+    url: `${config.apiUrl}/${id}`,
     method: "get",
   });
 
   const [updatedUser, updateUser] = useMutate({
     method: "put",
-    url: `${config.apiUrl}${id}`,
+    url: `${config.apiUrl}/${id}`,
   });
 
   const [deletedUser, removeUser] = useMutate({
     method: "delete",
-    url: `${config.apiUrl}${id}`,
+    url: `${config.apiUrl}/${id}`,
   });
 
   const handleSubmit = (data) => {

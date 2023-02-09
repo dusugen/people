@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useFetch } from "../../hooks/useFetch";
 import { sortUsers } from "../../utils";
-import UsersTable from "../Table/UsersTable";
+import UsersTable from "../UsersTable/UsersTable";
 import Filters from "../Filters/Filters";
-import styles from "../Table/UsersTable.module.scss";
+import styles from "../UsersTable/UsersTable.module.scss";
 import Spinner from "../shared/Spinner/Spinner";
 import NotFound from "../NotFound/NotFound";
 import config from "../../config.json";
@@ -45,7 +45,7 @@ function UsersList() {
   });
 
   const users = useFetch({
-    url: `${config.apiUrl}`,
+    url: config.apiUrl,
     params: searchParams.toString(),
     method: "get",
   });

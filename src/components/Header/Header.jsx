@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../Table/UsersTable.module.scss";
+import styles from "../UsersTable/UsersTable.module.scss";
 import { Link, useLocation } from "react-router-dom";
 
 function Header() {

@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import Toast from "react-bootstrap/Toast";
-import { appContext } from "../../context";
+import { AppContext } from "../../context";
 import { ToastContainer } from "react-bootstrap";
 
 function ShowToast() {
-  const { toastData, setToast } = useContext(appContext);
+  const { toastData, setToast } = useContext(AppContext);
   const { status, type, message, title } = toastData;
   return (
     <ToastContainer className={`p-3`} position={`bottom-center`}>
