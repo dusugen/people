@@ -1,0 +1,43 @@
+.root {
+  display: flex;
+  padding-left: 0;
+  align-items: center;
+  margin: 0;
+
+  li {
+    display: inline-block;
+    color: cornflowerblue;
+
+    a {
+      font-size: 14px;
+      color: cornflowerblue;
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      text-align: center;
+      line-height: 30px;
+      border-radius: 6px;
+      margin-right: 5px;
+      cursor: pointer;
+      border: 1px solid cornflowerblue;
+
+      &:hover {
+        background-color: cornflowerblue;
+        color: white !important;
+      }
+    }
+  }
+
+  :global {
+    .selected {
+      a {
+        background-color: cornflowerblue;
+        color: #fff;
+      }
+    }
+  }
+}
+
+.dropdown {
+  width: 13%;
+}

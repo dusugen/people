@@ -1,23 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import React, { useCallback, useState } from "react";
+
+import Header from "./components/Header/Header";
+import { Route, Routes } from "react-router-dom";
+import AddUser from "./components/AddUser/AddUser";
+import EditUser from "./components/EditUser/EditUser";
+import UsersList from "./components/UsersList/UsersList";
+import NotFound from "./components/NotFound/NotFound";
+import ShowToast from "./components/shared/ShowToast";
+import { AppContext } from "./context";
+import ConfirmModal from "./components/shared/ConfirmModal";
 
 function App() {
+  const [toastData, setToastData] = useState({
+    status: false,
+    type: "info",
+    message: "",
+    title: "",
+  });
+
+  const setToast = useCallback(({ type, message, status, title }) => {
+    setToastData({
+      status: status || false,
+      type: type || "",
+      message: message || "",
+      title: title || "Notification",
+    });
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container-lg">
+      <AppContext.Provider
+        value={{
+          toastData,
+          setToast,
+        }}
+      >
+        <Header />
+        <ConfirmModal />
+        <ShowToast />
+        <Routes>
+          <Route path={"/"} element={<UsersList />} />
+          <Route path={"/addUser"} element={<AddUser />} />
+          <Route path={"/editUser/:id"} element={<EditUser />} />
+          <Route path={"/*"} element={<NotFound />} />
+        </Routes>
+      </AppContext.Provider>
     </div>
   );
 }
