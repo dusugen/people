@@ -8,25 +8,34 @@ import EditUser from "./components/EditUser/EditUser";
 import UsersList from "./components/UsersList/UsersList";
 import NotFound from "./components/NotFound/NotFound";
 import ShowToast from "./components/shared/ShowToast";
-import { AppContext } from "./context";
-import ConfirmModal from "./components/shared/ConfirmModal";
+import { AppContext } from "./appContext";
 
-function App() {
-  const [toastData, setToastData] = useState({
+export interface IToastData {
+  status: boolean;
+  type: string;
+  message: string;
+  title?: string;
+}
+
+const App: React.FC = () => {
+  const [toastData, setToastData] = useState<IToastData>({
     status: false,
     type: "info",
     message: "",
     title: "",
   });
 
-  const setToast = useCallback(({ type, message, status, title }) => {
-    setToastData({
-      status: status || false,
-      type: type || "",
-      message: message || "",
-      title: title || "Notification",
-    });
-  }, []);
+  const setToast = useCallback(
+    ({ type, message, status, title }: IToastData) => {
+      setToastData({
+        status: status || false,
+        type: type || "",
+        message: message || "",
+        title: title || "Notification",
+      });
+    },
+    []
+  );
 
   return (
     <div className="container-lg">
@@ -37,7 +46,6 @@ function App() {
         }}
       >
         <Header />
-        <ConfirmModal />
         <ShowToast />
         <Routes>
           <Route path={"/"} element={<UsersList />} />
@@ -48,6 +56,6 @@ function App() {
       </AppContext.Provider>
     </div>
   );
-}
+};
 
 export default App;

@@ -1,11 +1,12 @@
-import React, { useCallback, useContext, useState } from "react";
-import UserForm from "../AddUser/components/UserForm";
+import React, { useCallback, useContext } from "react";
+import { TUserForm, UserForm } from "../UserForm";
 import { useNavigate, useParams } from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
 import useMutate from "../../hooks/useMutate";
 import Spinner from "../shared/Spinner/Spinner";
-import { AppContext } from "../../context";
+import { AppContext } from "../../appContext";
 import config from "../../config.json";
+import { TMetaData, TUserBody, TUserData } from "../../types";
 
 function EditUser() {
   const { setToast } = useContext(AppContext);
@@ -14,12 +15,12 @@ function EditUser() {
 
   const { id } = useParams();
 
-  const { data, isLoading, error } = useFetch({
+  const { data, isLoading, error } = useFetch<TUserData, TMetaData>({
     url: `${config.apiUrl}/${id}`,
     method: "get",
   });
 
-  const [updatedUser, updateUser] = useMutate({
+  const [updatedUser, updateUser] = useMutate<TUserBody, TUserData>({
     method: "put",
     url: `${config.apiUrl}/${id}`,
   });
@@ -29,7 +30,7 @@ function EditUser() {
     url: `${config.apiUrl}/${id}`,
   });
 
-  const handleSubmit = (data) => {
+  const handleSubmit = (data: TUserForm) => {
     updateUser({
       ...data,
       gender: data.gender.value,
@@ -53,6 +54,7 @@ function EditUser() {
   };
 
   const handleDelete = useCallback(() => {
+    //@ts-ignore
     removeUser()
       .then((res) => {
         setToast({

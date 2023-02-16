@@ -1,4 +1,10 @@
-export const sortUsers = (data, field, direction) => {
+import { TUserData } from "./types";
+
+export const sortUsers = (
+  data: TUserData[],
+  field: string,
+  direction: string
+): TUserData[] => {
   const copyData = [...data];
   copyData.sort((itemA, itemB) => {
     let result = 0;

@@ -2,7 +2,23 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
-function ConfirmModal({ show, onConfirm, onClose, isDisabled, title, text }) {
+type TConfirmModalProps = {
+  show: boolean;
+  onConfirm: () => void;
+  onClose: () => void;
+  isDisabled: boolean;
+  title: string;
+  text: string;
+};
+
+const ConfirmModal: React.FC<TConfirmModalProps> = ({
+  show,
+  onConfirm,
+  onClose,
+  isDisabled,
+  title,
+  text,
+}) => {
   return (
     <Modal show={show} onHide={onClose}>
       <Modal.Header closeButton>
@@ -19,6 +35,6 @@ function ConfirmModal({ show, onConfirm, onClose, isDisabled, title, text }) {
       </Modal.Footer>
     </Modal>
   );
-}
+};
 
 export default ConfirmModal;

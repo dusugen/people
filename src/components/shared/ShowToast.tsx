@@ -1,15 +1,15 @@
 import React, { useContext } from "react";
 import Toast from "react-bootstrap/Toast";
-import { AppContext } from "../../context";
+import { AppContext } from "../../appContext";
 import { ToastContainer } from "react-bootstrap";
 
-function ShowToast() {
+const ShowToast = () => {
   const { toastData, setToast } = useContext(AppContext);
   const { status, type, message, title } = toastData;
   return (
     <ToastContainer className={`p-3`} position={`bottom-center`}>
       <Toast
-        onClose={() => setToast({ status: false })}
+        onClose={() => setToast({ ...toastData, status: false })}
         show={status}
         delay={3000}
         autohide
@@ -22,6 +22,6 @@ function ShowToast() {
       </Toast>
     </ToastContainer>
   );
-}
+};
 
 export default ShowToast;
