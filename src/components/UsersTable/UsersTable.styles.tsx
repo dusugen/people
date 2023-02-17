@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import "bootstrap-icons/font/bootstrap-icons.css";
 import { TbArrowsSort, TbArrowUp, TbArrowDown } from "react-icons/tb";
 
 export const TableWrapper = styled.div.attrs({
