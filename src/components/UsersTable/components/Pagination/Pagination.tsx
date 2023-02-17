@@ -1,8 +1,7 @@
 import React from "react";
-import ReactPaginate from "react-paginate";
-import styles from "./Pagination.module.scss";
 import { TMetaData } from "../../../../types";
 import { TPagination } from "../../../UsersList/UsersList";
+import { ReactPaginateStyled, Select, Wrapper } from "./Pagination.styles";
 
 type TPaginationProps = {
   meta: TMetaData;
@@ -17,9 +16,8 @@ const Pagination: React.FC<TPaginationProps> = ({
 }) => {
   const totalCount = Math.ceil(meta.pagination.total / pagination.per_page);
   return (
-    <div className={`d-flex justify-content-between w-100 mb-3`}>
-      <ReactPaginate
-        className={styles.root}
+    <Wrapper>
+      <ReactPaginateStyled
         breakLabel="..."
         nextLabel="→"
         onPageChange={(event) => onPagination({ page: event.selected })}
@@ -28,8 +26,7 @@ const Pagination: React.FC<TPaginationProps> = ({
         previousLabel="←"
         forcePage={pagination.page}
       />
-      <select
-        className={`form-select ${styles.dropdown}`}
+      <Select
         value={pagination.per_page}
         onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
           onPagination({ page: 0, per_page: Number(e.target.value) })
@@ -39,8 +36,8 @@ const Pagination: React.FC<TPaginationProps> = ({
         <option value={25}>25</option>
         <option value={50}>50</option>
         <option value={100}>100</option>
-      </select>
-    </div>
+      </Select>
+    </Wrapper>
   );
 };
 

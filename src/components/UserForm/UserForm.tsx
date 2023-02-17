@@ -1,13 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import ReactSelect from "react-select";
-import { Link } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
-import styles from "./UserForm.module.scss";
-import ConfirmModal from "../shared/ConfirmModal";
+import ConfirmModal from "../shared/ConfirmModal/ConfirmModal";
 import { TUserData } from "../../types";
 import { TUserForm } from "./types";
 import { userFormSchema } from "./schemas";
+import {
+  ButtonCancel,
+  ButtonDelete,
+  ButtonSuccess,
+  ButtonWrapper,
+  CheckboxLabel,
+  CheckboxWrapper,
+  InputCheckbox,
+  InputDescr,
+  InputText,
+  Label,
+  SelectWrapper,
+  Wrapper,
+} from "./UserForm.styles";
 
 const options = [
   {
@@ -89,111 +101,64 @@ export const UserForm: React.FC<UserFormProps> = React.memo(
     return (
       <>
         <form onSubmit={handleSubmit(handleForm)}>
-          <div className="mb-3">
-            <label
-              htmlFor="formName"
-              className={`form-label ${styles.labelForm}`}
-            >
-              Name
-            </label>
-            <input
-              {...register("name")}
-              type="text"
-              className="form-control"
-              id="formName"
-            />
-            <div id="nameHelp" className={`form-text ${styles.error}`}>
+          <Wrapper>
+            <Label htmlFor="formName">Name</Label>
+            <InputText {...register("name")} id="formName" />
+            <InputDescr id="nameHelp">
               {errors?.name && <p>{errors?.name?.message || "Error"}</p>}
-            </div>
-          </div>
-          <div className="mb-3">
-            <label
-              htmlFor="formEmail"
-              className={`form-label ${styles.labelForm}`}
-            >
-              Email
-            </label>
-            <input
-              {...register("email")}
-              name="email"
-              type="text"
-              className="form-control"
-              id="formEmail"
-            />
-            <div id="emailHelp" className={`form-text ${styles.error}`}>
+            </InputDescr>
+          </Wrapper>
+          <Wrapper>
+            <Label htmlFor="formEmail">Email</Label>
+            <InputText {...register("email")} name="email" id="formEmail" />
+            <InputDescr id="emailHelp">
               {errors?.email && <p>{errors?.email?.message || "Error"}</p>}
-            </div>
-          </div>
-          <label
-            htmlFor="formGender"
-            className={`form-label ${styles.labelForm}`}
-          >
-            Gender
-          </label>
+            </InputDescr>
+          </Wrapper>
+          <Label htmlFor="formGender">Gender</Label>
           <Controller
             control={control}
             name="gender"
             render={({ field, fieldState }) => {
               return (
-                <div className={styles.customSelect}>
+                <SelectWrapper>
                   <ReactSelect
                     {...field}
                     options={options}
                     placeholder="Choose your gender"
                   />
-                  <div id="genderHelp" className={`form-text ${styles.error}`}>
+                  <InputDescr id="genderHelp">
                     {fieldState.error && (
                       <p>{fieldState.error.message || "Error"}</p>
                     )}
-                  </div>
-                </div>
+                  </InputDescr>
+                </SelectWrapper>
               );
             }}
           />
-          <label
-            htmlFor="formStatus"
-            className={`form-label ${styles.labelForm}`}
-          >
-            Status
-          </label>
-          <div className="form-check mb-4">
-            <input
-              {...register("status")}
-              className="form-check-input"
-              type="checkbox"
-              value=""
-              id="formStatus"
-            />
-            <label className="form-check-label" htmlFor="formStatus">
-              Active
-            </label>
-          </div>
-          <div className="d-flex justify-content-between">
+          <Label htmlFor="formStatus">Status</Label>
+          <CheckboxWrapper>
+            <InputCheckbox {...register("status")} value="" id="formStatus" />
+            <CheckboxLabel htmlFor="formStatus">Active</CheckboxLabel>
+          </CheckboxWrapper>
+          <ButtonWrapper>
             <div>
               {data && (
-                <button
-                  type={"button"}
-                  className="btn  btn-outline-danger me-4"
+                <ButtonDelete
                   disabled={!isValid || isLoading}
                   onClick={handleDeleteClick}
                 >
                   Delete
-                </button>
+                </ButtonDelete>
               )}
             </div>
             <div>
-              <button
-                type="submit"
-                className="btn  btn-outline-success me-4"
-                disabled={!isValid || isLoading}
-              >
+              <ButtonSuccess disabled={!isValid || isLoading}>
                 {data ? "Edit" : "Add"}
-              </button>
-              <Link to={"/"} className="btn  btn-outline-danger">
-                Cancel
-              </Link>
+              </ButtonSuccess>
+              <ButtonCancel to={"/"}>Cancel</ButtonCancel>
             </div>
-          </div>
+          </ButtonWrapper>
         </form>
         {modalShow && (
           <ConfirmModal

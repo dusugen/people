@@ -1,45 +1,37 @@
 import React from "react";
-import styles from "../UsersTable/UsersTable.module.scss";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import {
+  ButtonAddUser,
+  ButtonUserList,
+  Image,
+  LinkLogo,
+  LogoWrapper,
+  Title,
+  Wrapper,
+} from "./Header.styles";
 
 function Header() {
   const { pathname } = useLocation();
+  const imageUrl: string =
+    "https://cdn.dribbble.com/users/3494217/screenshots/6423133/01_preview.jpg?compress=1&resize=768x576&vertical=top";
+
   return (
-    <nav className="navbar navbar-expand-lg navbar-light  justify-content-between ">
-      <div className="container-fluid p-0 mb-1 flex-nowrap">
-        <Link
-          className="navbar-brand fw-bolder me-0 p-0 d-flex align-items-center"
-          to="/"
-        >
-          <img
-            className={styles.logoImg}
-            src="https://cdn.dribbble.com/users/3494217/screenshots/6423133/01_preview.jpg?compress=1&resize=768x576&vertical=top"
-            alt=""
-          />
-          <span className={`h1`}>People</span>
-        </Link>
+    <Wrapper>
+      <LogoWrapper>
+        <LinkLogo to="/">
+          <Image src={imageUrl} alt="logo" />
+        </LinkLogo>
+        <Title>People</Title>
         <div>
-          <Link
-            className={`btn btn-outline-primary me-4 ${
-              pathname === "/" ? "active" : ""
-            }`}
-            type="button"
-            to={`/`}
-          >
+          <ButtonUserList to={`/`} $active={pathname === "/"}>
             Users list
-          </Link>
-          <Link
-            className={`btn btn-outline-success ${
-              pathname === "/addUser" ? "active" : ""
-            }`}
-            type="button"
-            to={`/addUser`}
-          >
+          </ButtonUserList>
+          <ButtonAddUser to={"/addUser"} $active={pathname === "/addUser"}>
             Add user
-          </Link>
+          </ButtonAddUser>
         </div>
-      </div>
-    </nav>
+      </LogoWrapper>
+    </Wrapper>
   );
 }
 

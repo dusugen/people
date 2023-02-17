@@ -3,11 +3,11 @@ import { useFetch } from "../../hooks/useFetch";
 import { sortUsers } from "../../utils";
 import UsersTable from "../UsersTable/UsersTable";
 import Filters from "../Filters/Filters";
-import styles from "../UsersTable/UsersTable.module.scss";
 import Spinner from "../shared/Spinner/Spinner";
 import NotFound from "../NotFound/NotFound";
 import config from "../../config.json";
 import { TMetaData, TUserData } from "../../types";
+import { Col, Row } from "./UsersList.styles";
 
 export type TUsersListSort = {
   direction: string;
@@ -104,8 +104,8 @@ const UsersList: React.FC = () => {
   );
 
   return (
-    <div className={`row ${styles.root}`}>
-      <div className={`col-lg-9 ${styles.table}`}>
+    <Row>
+      <Col>
         {users.isLoading ? (
           <Spinner />
         ) : usersData && users.meta ? (
@@ -120,9 +120,9 @@ const UsersList: React.FC = () => {
         ) : users.error ? (
           <NotFound />
         ) : null}
-      </div>
+      </Col>
       <Filters filters={filters} onFiltering={handleFiltering} />
-    </div>
+    </Row>
   );
 };
 

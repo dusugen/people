@@ -7,8 +7,9 @@ import AddUser from "./components/AddUser/AddUser";
 import EditUser from "./components/EditUser/EditUser";
 import UsersList from "./components/UsersList/UsersList";
 import NotFound from "./components/NotFound/NotFound";
-import ShowToast from "./components/shared/ShowToast";
+import ShowToast from "./components/shared/ShowToast/ShowToast";
 import { AppContext } from "./appContext";
+import { Container } from "./App.styles";
 
 export interface IToastData {
   status: boolean;
@@ -38,7 +39,7 @@ const App: React.FC = () => {
   );
 
   return (
-    <div className="container-lg">
+    <Container>
       <AppContext.Provider
         value={{
           toastData,
@@ -54,7 +55,7 @@ const App: React.FC = () => {
           <Route path={"/*"} element={<NotFound />} />
         </Routes>
       </AppContext.Provider>
-    </div>
+    </Container>
   );
 };
 

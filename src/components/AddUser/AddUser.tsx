@@ -7,6 +7,7 @@ import config from "../../config.json";
 import { TUserBody, TUserData } from "../../types";
 import { TUserForm } from "../UserForm/types";
 import { UserForm } from "../UserForm";
+import { PageTitle } from "../shared/PageTitle/PageTitle.styled";
 
 const AddUser = () => {
   const { setToast } = useContext(AppContext);
@@ -46,7 +47,7 @@ const AddUser = () => {
 
   return (
     <div>
-      <div className={`h2 text-center mb-4 fst-italic`}>Add user</div>
+      <PageTitle>Add User</PageTitle>
       <UserForm onSubmit={handleSubmit} {...userData} />
     </div>
   );

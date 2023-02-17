@@ -1,13 +1,17 @@
 import React, { useContext } from "react";
 import Toast from "react-bootstrap/Toast";
-import { AppContext } from "../../appContext";
-import { ToastContainer } from "react-bootstrap";
+import { AppContext } from "../../../appContext";
+import {
+  Title,
+  ToastBodyStyled,
+  ToastContainerStyled,
+} from "./ShowToast.styles";
 
 const ShowToast = () => {
   const { toastData, setToast } = useContext(AppContext);
   const { status, type, message, title } = toastData;
   return (
-    <ToastContainer className={`p-3`} position={`bottom-center`}>
+    <ToastContainerStyled>
       <Toast
         onClose={() => setToast({ ...toastData, status: false })}
         show={status}
@@ -16,11 +20,11 @@ const ShowToast = () => {
         bg={type}
       >
         <Toast.Header>
-          <strong className="me-auto">{title}</strong>
+          <Title>{title}</Title>
         </Toast.Header>
-        <Toast.Body className="text-white">{message}</Toast.Body>
+        <ToastBodyStyled>{message}</ToastBodyStyled>
       </Toast>
-    </ToastContainer>
+    </ToastContainerStyled>
   );
 };
 

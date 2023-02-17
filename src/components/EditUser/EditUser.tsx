@@ -7,6 +7,7 @@ import Spinner from "../shared/Spinner/Spinner";
 import { AppContext } from "../../appContext";
 import config from "../../config.json";
 import { TMetaData, TUserBody, TUserData } from "../../types";
+import { PageTitle } from "../shared/PageTitle/PageTitle.styled";
 
 function EditUser() {
   const { setToast } = useContext(AppContext);
@@ -73,7 +74,7 @@ function EditUser() {
 
   return (
     <div>
-      <div className={`h2 mb-4 text-center fst-italic`}> Edit user</div>
+      <PageTitle>Edit User</PageTitle>
       {isLoading ? (
         <Spinner />
       ) : error ? (

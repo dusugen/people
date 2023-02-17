@@ -1,4 +1,6 @@
-.root {
+import styled from "styled-components";
+
+export const Wrapper = styled.div`
   text-align: center;
   padding: 100px;
   max-width: 750px;
@@ -7,4 +9,4 @@
   span {
     font-size: 78px;
   }
-}
+`;

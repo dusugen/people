@@ -1,16 +1,16 @@
 import React from "react";
 
-import styles from "./NotFound.module.scss";
+import { Wrapper } from "./NotFound.styles";
 
 function NotFoundBlock() {
   return (
-    <div className={styles.root}>
+    <Wrapper>
       <h1>
         <span>😕</span>
         <br />
         Not Found
       </h1>
-    </div>
+    </Wrapper>
   );
 }
 

@@ -1,10 +1,19 @@
 import React, { useCallback, useMemo } from "react";
-import styles from "./UsersTable.module.scss";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import UserRow from "./components/UserRow/UserRow";
 import Pagination from "./components/Pagination/Pagination";
 import { TMetaData, TUserData } from "../../types";
 import { TPagination, TUsersListSort } from "../UsersList/UsersList";
+import {
+  SortingAsc,
+  SortingDesc,
+  TableStyled,
+  TableWrapper,
+  THead,
+  ThStatus,
+  Tr,
+  Unsorted,
+} from "./UsersTable.styles";
 
 interface IUsersTableProps {
   items: TUserData[];
@@ -32,11 +41,11 @@ const UsersTable: React.FC<IUsersTableProps> = React.memo(
     );
 
     return (
-      <div className={`table-responsive`}>
-        <table className={`table table-hover ${styles.table} `}>
-          <thead className={`bg-warning bg-gradient`}>
-            <tr className={` pb-4`}>
-              <th scope="col">
+      <TableWrapper>
+        <TableStyled>
+          <THead>
+            <Tr>
+              <th>
                 <div
                   onClick={() => {
                     handleSort({ field: "id", direction: "asc" });
@@ -44,43 +53,41 @@ const UsersTable: React.FC<IUsersTableProps> = React.memo(
                 >
                   <span>Id</span>
                   {sorting.field !== "id" ? (
-                    <i className={`bi bi-chevron-expand ${styles.img}`}></i>
+                    <Unsorted />
                   ) : sorting.direction === "asc" ? (
-                    <i className={`bi bi-arrow-up ${styles.img}`}></i>
+                    <SortingAsc />
                   ) : (
-                    <i className={`bi bi-arrow-down ${styles.img}`}></i>
+                    <SortingDesc />
                   )}
                 </div>
               </th>
-              <th scope="col">Email</th>
-              <th scope="col">Name</th>
-              <th scope="col">Gender</th>
-              <th
-                scope="col"
-                className={styles.colStatus}
+              <th>Email</th>
+              <th>Name</th>
+              <th>Gender</th>
+              <ThStatus
                 onClick={() => {
                   handleSort({ field: "status", direction: "asc" });
                 }}
               >
                 Status
                 {sorting.field !== "status" ? (
-                  <i className={`bi bi-chevron-expand ${styles.img}`}></i>
+                  <Unsorted />
                 ) : sorting.direction === "asc" ? (
-                  <i className={`bi bi-arrow-up ${styles.img}`}></i>
+                  <SortingAsc />
                 ) : (
-                  <i className={`bi bi-arrow-down ${styles.img}`}></i>
+                  <SortingDesc />
                 )}
-              </th>
-            </tr>
-          </thead>
+              </ThStatus>
+            </Tr>
+          </THead>
           <tbody>{users}</tbody>
-        </table>
+        </TableStyled>
         <Pagination
           meta={meta}
           onPagination={onPagination}
           pagination={pagination}
         />
-      </div>
+      </TableWrapper>
     );
   }
 );
