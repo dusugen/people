@@ -67,7 +67,6 @@ const UsersList: React.FC = () => {
   const users = useFetch<TUserData[], TMetaData>({
     url: config.apiUrl,
     params: searchParams.toString(),
-    method: "get",
   });
 
   // Sorting

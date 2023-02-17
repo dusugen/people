@@ -17,7 +17,6 @@ function EditUser() {
 
   const { data, isLoading, error } = useFetch<TUserData, TMetaData>({
     url: `${config.apiUrl}/${id}`,
-    method: "get",
   });
 
   const [updatedUser, updateUser] = useMutate<TUserBody, TUserData>({
@@ -54,7 +53,6 @@ function EditUser() {
   };
 
   const handleDelete = useCallback(() => {
-    //@ts-ignore
     removeUser()
       .then((res) => {
         setToast({

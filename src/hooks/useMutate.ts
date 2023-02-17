@@ -16,7 +16,7 @@ interface IMutateReturn<T> {
   isLoading: boolean;
 }
 
-type IMutateFunction<B, D> = (data: Partial<B>) => Promise<D | null>;
+type IMutateFunction<B, D> = (data?: Partial<B>) => Promise<D | null>;
 
 type TError = {
   message: string;

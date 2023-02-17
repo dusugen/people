@@ -3,11 +3,10 @@ import axios, { AxiosError } from "axios";
 
 interface IUseFetchParams {
   url: string;
-  method: string;
   params?: string;
 }
 
-export function useFetch<D, M>({ url, method, params }: IUseFetchParams) {
+export function useFetch<D, M>({ url, params }: IUseFetchParams) {
   const [data, setData] = useState<D | null>(null);
   const [error, setError] = useState<Error | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -17,11 +16,9 @@ export function useFetch<D, M>({ url, method, params }: IUseFetchParams) {
     (async function () {
       try {
         setIsLoading(true);
-        if (method === "get") {
-          const response = await axios.get(`${url}?${params}`);
-          setData(response.data.data as D);
-          setMeta(response.data.meta as M);
-        }
+        const response = await axios.get(`${url}?${params}`);
+        setData(response.data.data as D);
+        setMeta(response.data.meta as M);
       } catch (err) {
         const error = err as AxiosError;
 
@@ -30,6 +27,6 @@ export function useFetch<D, M>({ url, method, params }: IUseFetchParams) {
         setIsLoading(false);
       }
     })();
-  }, [url, method, params]);
+  }, [url, params]);
   return { data, meta, error, isLoading };
 }
