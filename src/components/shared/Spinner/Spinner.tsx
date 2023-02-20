@@ -1,13 +1,13 @@
 import React from "react";
-import { Border, Span, Wrapper } from "./Spinner.styles";
+import { Border, Spin, Root } from "./Spinner.styles";
 
 function Spinner() {
   return (
-    <Wrapper>
+    <Root>
       <Border>
-        <Span></Span>
+        <Spin></Spin>
       </Border>
-    </Wrapper>
+    </Root>
   );
 }
 

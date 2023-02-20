@@ -9,12 +9,12 @@ import { userFormSchema } from "./schemas";
 import {
   ButtonCancel,
   ButtonDelete,
-  ButtonSuccess,
+  ButtonSubmit,
   ButtonWrapper,
   CheckboxLabel,
   CheckboxWrapper,
   InputCheckbox,
-  InputDescr,
+  InputError,
   InputText,
   Label,
   SelectWrapper,
@@ -104,16 +104,21 @@ export const UserForm: React.FC<UserFormProps> = React.memo(
           <Wrapper>
             <Label htmlFor="formName">Name</Label>
             <InputText {...register("name")} id="formName" />
-            <InputDescr id="nameHelp">
-              {errors?.name && <p>{errors?.name?.message || "Error"}</p>}
-            </InputDescr>
+            <InputError id="nameHelp">
+              {errors?.name && <p>{errors?.name?.message}</p>}
+            </InputError>
           </Wrapper>
           <Wrapper>
             <Label htmlFor="formEmail">Email</Label>
-            <InputText {...register("email")} name="email" id="formEmail" />
-            <InputDescr id="emailHelp">
-              {errors?.email && <p>{errors?.email?.message || "Error"}</p>}
-            </InputDescr>
+            <InputText
+              placeholder="example@gmail.com"
+              {...register("email")}
+              name="email"
+              id="formEmail"
+            />
+            <InputError id="emailHelp">
+              {errors?.email && <p>{errors?.email?.message}</p>}
+            </InputError>
           </Wrapper>
           <Label htmlFor="formGender">Gender</Label>
           <Controller
@@ -127,11 +132,9 @@ export const UserForm: React.FC<UserFormProps> = React.memo(
                     options={options}
                     placeholder="Choose your gender"
                   />
-                  <InputDescr id="genderHelp">
-                    {fieldState.error && (
-                      <p>{fieldState.error.message || "Error"}</p>
-                    )}
-                  </InputDescr>
+                  <InputError id="genderHelp">
+                    {fieldState.error && <p>{fieldState.error.message}</p>}
+                  </InputError>
                 </SelectWrapper>
               );
             }}
@@ -153,9 +156,9 @@ export const UserForm: React.FC<UserFormProps> = React.memo(
               )}
             </div>
             <div>
-              <ButtonSuccess disabled={!isValid || isLoading}>
+              <ButtonSubmit disabled={!isValid || isLoading}>
                 {data ? "Edit" : "Add"}
-              </ButtonSuccess>
+              </ButtonSubmit>
               <ButtonCancel to={"/"}>Cancel</ButtonCancel>
             </div>
           </ButtonWrapper>

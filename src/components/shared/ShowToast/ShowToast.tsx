@@ -3,15 +3,15 @@ import Toast from "react-bootstrap/Toast";
 import { AppContext } from "../../../appContext";
 import {
   Title,
-  ToastBodyStyled,
-  ToastContainerStyled,
+  StyledToastBody,
+  StyledToastContainer,
 } from "./ShowToast.styles";
 
 const ShowToast = () => {
   const { toastData, setToast } = useContext(AppContext);
   const { status, type, message, title } = toastData;
   return (
-    <ToastContainerStyled>
+    <StyledToastContainer>
       <Toast
         onClose={() => setToast({ ...toastData, status: false })}
         show={status}
@@ -22,9 +22,9 @@ const ShowToast = () => {
         <Toast.Header>
           <Title>{title}</Title>
         </Toast.Header>
-        <ToastBodyStyled>{message}</ToastBodyStyled>
+        <StyledToastBody>{message}</StyledToastBody>
       </Toast>
-    </ToastContainerStyled>
+    </StyledToastContainer>
   );
 };
 

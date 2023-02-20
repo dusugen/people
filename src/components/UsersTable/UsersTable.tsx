@@ -7,10 +7,10 @@ import { TPagination, TUsersListSort } from "../UsersList/UsersList";
 import {
   SortingAsc,
   SortingDesc,
-  TableStyled,
+  Table,
   TableWrapper,
-  THead,
-  ThStatus,
+  Th,
+  Thead,
   Tr,
   Unsorted,
 } from "./UsersTable.styles";
@@ -42,10 +42,10 @@ const UsersTable: React.FC<IUsersTableProps> = React.memo(
 
     return (
       <TableWrapper>
-        <TableStyled>
-          <THead>
+        <Table>
+          <Thead>
             <Tr>
-              <th>
+              <Th>
                 <div
                   onClick={() => {
                     handleSort({ field: "id", direction: "asc" });
@@ -60,11 +60,11 @@ const UsersTable: React.FC<IUsersTableProps> = React.memo(
                     <SortingDesc />
                   )}
                 </div>
-              </th>
+              </Th>
               <th>Email</th>
               <th>Name</th>
               <th>Gender</th>
-              <ThStatus
+              <Th
                 onClick={() => {
                   handleSort({ field: "status", direction: "asc" });
                 }}
@@ -77,11 +77,11 @@ const UsersTable: React.FC<IUsersTableProps> = React.memo(
                 ) : (
                   <SortingDesc />
                 )}
-              </ThStatus>
+              </Th>
             </Tr>
-          </THead>
+          </Thead>
           <tbody>{users}</tbody>
-        </TableStyled>
+        </Table>
         <Pagination
           meta={meta}
           onPagination={onPagination}

@@ -5,19 +5,27 @@ export const TableWrapper = styled.div.attrs({
   className: "table-responsive",
 })``;
 
-export const TableStyled = styled.table.attrs({
+export const Table = styled.table.attrs({
   className: "table table-hover ",
 })`
   padding-right: 30px;
 `;
 
-export const THead = styled.thead.attrs({
+export const Thead = styled.thead.attrs({
   className: "bg-warning bg-gradient",
 })``;
 
 export const Tr = styled.tr.attrs({
   className: "pb-4",
 })``;
+
+export const Th = styled.th`
+  cursor: pointer;
+
+  &:last-child {
+    width: 13%;
+  }
+`;
 
 export const Unsorted = styled(TbArrowsSort)({
   fontSize: 20,
@@ -36,7 +44,3 @@ export const SortingDesc = styled(TbArrowDown)({
   marginLeft: 4,
   cursor: "pointer",
 });
-
-export const ThStatus = styled.th`
-  min-width: 90px;
-`;

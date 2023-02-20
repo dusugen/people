@@ -16,7 +16,7 @@ export const InputText = styled.input.attrs({
   type: "text",
 })``;
 
-export const InputDescr = styled.div.attrs({
+export const InputError = styled.div.attrs({
   className: "form-text",
 })`
   color: red;
@@ -51,11 +51,11 @@ export const ButtonDelete = styled.button.attrs({
   type: "button",
 })``;
 
-export const ButtonSuccess = styled.button.attrs({
+export const ButtonSubmit = styled.button.attrs({
   className: "btn  btn-outline-success me-4",
   type: "submit",
 })``;
 
 export const ButtonCancel = styled(Link).attrs({
-  className: "btn  btn-outline-danger",
+  className: "btn  btn-outline-secondary",
 })``;

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import ReactPaginate from "react-paginate";
 
 export const Wrapper = styled.div.attrs({
@@ -11,7 +11,18 @@ export const Select = styled.select.attrs({
   width: 13%;
 `;
 
-export const ReactPaginateStyled = styled(ReactPaginate)`
+export const GlobalPaginationStyles = createGlobalStyle`
+  .selected {
+    a {
+      background-color: cornflowerblue;
+      color: white !important;
+    }
+  }
+
+
+`;
+
+export const StyledReactPaginate = styled(ReactPaginate)`
   display: flex;
   padding-left: 0;
   align-items: center;
@@ -28,24 +39,16 @@ export const ReactPaginateStyled = styled(ReactPaginate)`
       width: 30px;
       height: 30px;
       text-align: center;
-      line-height: 30px;
+      line-height: 27px;
       border-radius: 6px;
       margin-right: 5px;
       cursor: pointer;
       border: 1px solid cornflowerblue;
+      text-decoration: none;
 
       &:hover {
         background-color: cornflowerblue;
         color: white !important;
-      }
-    }
-  }
-
-  :global {
-    .selected {
-      a {
-        background-color: cornflowerblue;
-        color: #fff;
       }
     }
   }

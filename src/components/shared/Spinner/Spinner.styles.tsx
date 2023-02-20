@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Wrapper = styled.div.attrs({
+export const Root = styled.div.attrs({
   className: "d-flex justify-content-center align-items-center",
 })`
   min-height: 250px;
@@ -11,6 +11,6 @@ export const Border = styled.div.attrs({
   role: "status",
 })``;
 
-export const Span = styled.span.attrs({
+export const Spin = styled.span.attrs({
   className: "sr-only",
 })``;

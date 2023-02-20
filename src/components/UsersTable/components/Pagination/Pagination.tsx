@@ -1,7 +1,12 @@
 import React from "react";
 import { TMetaData } from "../../../../types";
 import { TPagination } from "../../../UsersList/UsersList";
-import { ReactPaginateStyled, Select, Wrapper } from "./Pagination.styles";
+import {
+  StyledReactPaginate,
+  Select,
+  Wrapper,
+  GlobalPaginationStyles,
+} from "./Pagination.styles";
 
 type TPaginationProps = {
   meta: TMetaData;
@@ -17,7 +22,8 @@ const Pagination: React.FC<TPaginationProps> = ({
   const totalCount = Math.ceil(meta.pagination.total / pagination.per_page);
   return (
     <Wrapper>
-      <ReactPaginateStyled
+      <GlobalPaginationStyles />
+      <StyledReactPaginate
         breakLabel="..."
         nextLabel="→"
         onPageChange={(event) => onPagination({ page: event.selected })}

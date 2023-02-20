@@ -2,15 +2,14 @@ import React, { useCallback } from "react";
 import { TFilters } from "../UsersList/UsersList";
 import {
   Checkbox,
-  CheckboxInner,
-  CheckboxWrapper,
+  CheckboxContainer,
   Input,
   Label,
+  Root,
   Select,
   StyledButton,
   StyledLink,
   Title,
-  Wrapper,
 } from "./Filters.styled";
 
 type TFiltersProps = {
@@ -31,7 +30,7 @@ const Filters: React.FC<TFiltersProps> = React.memo(
     }, [filters]);
 
     return (
-      <Wrapper>
+      <Root>
         <Title>Filters</Title>
         <Input
           placeholder={`Name`}
@@ -51,34 +50,32 @@ const Filters: React.FC<TFiltersProps> = React.memo(
           <option value={`male`}>Male</option>
           <option value={`female`}>Female</option>
         </Select>
-        <CheckboxWrapper>
-          <CheckboxInner>
-            <Checkbox
-              id="activeCheckbox"
-              value="active"
-              checked={filters.activeStatus}
-              onChange={() => {
-                onFiltering({ activeStatus: !filters.activeStatus });
-              }}
-            />
-            <Label htmlFor="activeCheckbox">Active</Label>
-          </CheckboxInner>
-          <CheckboxInner>
-            <Checkbox
-              id="inActiveCheckbox"
-              checked={filters.inActiveStatus}
-              onChange={() => {
-                onFiltering({ inActiveStatus: !filters.inActiveStatus });
-              }}
-              value="inactive"
-            />
-            <Label>Inactive</Label>
-          </CheckboxInner>
-        </CheckboxWrapper>
+        <CheckboxContainer>
+          <Checkbox
+            id="activeCheckbox"
+            value="active"
+            checked={filters.activeStatus}
+            onChange={() => {
+              onFiltering({ activeStatus: !filters.activeStatus });
+            }}
+          />
+          <Label htmlFor="activeCheckbox">Active</Label>
+        </CheckboxContainer>
+        <CheckboxContainer>
+          <Checkbox
+            id="inActiveCheckbox"
+            checked={filters.inActiveStatus}
+            onChange={() => {
+              onFiltering({ inActiveStatus: !filters.inActiveStatus });
+            }}
+            value="inactive"
+          />
+          <Label>Inactive</Label>
+        </CheckboxContainer>
         <StyledButton onClick={handleReset}>
           <StyledLink to={"/"}>Reset</StyledLink>
         </StyledButton>
-      </Wrapper>
+      </Root>
     );
   }
 );

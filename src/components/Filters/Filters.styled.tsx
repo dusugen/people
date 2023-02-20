@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-export const Wrapper = styled.div.attrs({
+export const Root = styled.div.attrs({
   className: "col-lg-3",
 })`
   @media (max-width: 992px) {
@@ -23,12 +23,8 @@ export const Select = styled.select.attrs({
   className: "form-select mb-4",
 })``;
 
-export const CheckboxWrapper = styled.div.attrs({
-  className: "mb-4",
-})``;
-
-export const CheckboxInner = styled.div.attrs({
-  className: "form-check form-check-inline",
+export const CheckboxContainer = styled.div.attrs({
+  className: "form-check form-check-inline mb-4",
 })``;
 
 export const Checkbox = styled.input.attrs({
