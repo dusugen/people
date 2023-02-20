@@ -22,7 +22,7 @@ export const userFormSchema = yup.object<Shape<UserFields>>({
     .string()
     .required("Please, enter your email")
     .lowercase()
-    .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, "Enter correct email")
+    .matches(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/, "Enter correct email")
     .trim()
     .default(""),
   gender: yup.mixed().required("Please, choose your gender"),

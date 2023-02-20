@@ -96,7 +96,7 @@ export const UserForm: React.FC<UserFormProps> = React.memo(
           },
         });
       }
-    }, [data]);
+    }, [data, reset]);
 
     return (
       <>

@@ -18,32 +18,35 @@ const AddUser = () => {
     url: config.apiUrl,
   });
 
-  const handleSubmit = useCallback((data: TUserForm) => {
-    createUser({
-      ...data,
-      gender: data.gender.value,
-      status: data.status ? "active" : "inactive",
-    })
-      .then((res) => {
-        if (res) {
+  const handleSubmit = useCallback(
+    (data: TUserForm) => {
+      createUser({
+        ...data,
+        gender: data.gender.value,
+        status: data.status ? "active" : "inactive",
+      })
+        .then((res) => {
+          if (res) {
+            setToast({
+              status: true,
+              message: "User was added",
+              type: "success",
+              title: "Add user",
+            });
+            navigate(`/editUser/${res.id}`);
+          }
+        })
+        .catch((err) => {
           setToast({
             status: true,
-            message: "User was added",
-            type: "success",
+            message: `${err.message}`,
+            type: "danger",
             title: "Add user",
           });
-          navigate(`/editUser/${res.id}`);
-        }
-      })
-      .catch((err) => {
-        setToast({
-          status: true,
-          message: `${err.message}`,
-          type: "danger",
-          title: "Add user",
         });
-      });
-  }, []);
+    },
+    [createUser, navigate, setToast]
+  );
 
   return (
     <div>

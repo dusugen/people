@@ -27,7 +27,7 @@ const Filters: React.FC<TFiltersProps> = React.memo(
         activeStatus: false,
         inActiveStatus: false,
       });
-    }, [filters]);
+    }, [onFiltering]);
 
     return (
       <Root>

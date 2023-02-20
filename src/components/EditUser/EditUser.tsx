@@ -70,7 +70,7 @@ function EditUser() {
           type: "danger",
         });
       });
-  }, []);
+  }, [navigate, removeUser, setToast]);
 
   return (
     <div>
