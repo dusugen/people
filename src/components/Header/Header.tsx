@@ -2,6 +2,7 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 import {
   ButtonAddUser,
+  ButtonContainer,
   ButtonUserList,
   Container,
   Logo,
@@ -25,14 +26,14 @@ function Header() {
           </LogoLink>
           <h1>People</h1>
         </LogoContainer>
-        <div>
+        <ButtonContainer>
           <ButtonUserList to={`/`} $active={pathname === "/"}>
             Users list
           </ButtonUserList>
           <ButtonAddUser to={"/addUser"} $active={pathname === "/addUser"}>
             Add user
           </ButtonAddUser>
-        </div>
+        </ButtonContainer>
       </Container>
     </Navbar>
   );

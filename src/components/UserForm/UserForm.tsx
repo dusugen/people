@@ -105,7 +105,7 @@ export const UserForm: React.FC<UserFormProps> = React.memo(
             <Label htmlFor="formName">Name</Label>
             <InputText {...register("name")} id="formName" />
             <InputError id="nameHelp">
-              {errors?.name && <p>{errors?.name?.message}</p>}
+              {errors?.name ? errors.name.message : null}
             </InputError>
           </Wrapper>
           <Wrapper>
@@ -117,7 +117,7 @@ export const UserForm: React.FC<UserFormProps> = React.memo(
               id="formEmail"
             />
             <InputError id="emailHelp">
-              {errors?.email && <p>{errors?.email?.message}</p>}
+              {errors?.email ? errors.email.message : null}
             </InputError>
           </Wrapper>
           <Label htmlFor="formGender">Gender</Label>
@@ -133,7 +133,7 @@ export const UserForm: React.FC<UserFormProps> = React.memo(
                     placeholder="Choose your gender"
                   />
                   <InputError id="genderHelp">
-                    {fieldState.error && <p>{fieldState.error.message}</p>}
+                    {fieldState.error ? fieldState.error.message : null}
                   </InputError>
                 </SelectWrapper>
               );

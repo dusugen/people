@@ -5,7 +5,7 @@ function Spinner() {
   return (
     <Root>
       <Border>
-        <Spin></Spin>
+        <Spin />
       </Border>
     </Root>
   );

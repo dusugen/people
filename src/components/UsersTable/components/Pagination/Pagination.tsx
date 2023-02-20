@@ -1,12 +1,7 @@
 import React from "react";
 import { TMetaData } from "../../../../types";
 import { TPagination } from "../../../UsersList/UsersList";
-import {
-  StyledReactPaginate,
-  Select,
-  Wrapper,
-  GlobalPaginationStyles,
-} from "./Pagination.styles";
+import { Select, StyledReactPaginate, Root } from "./Pagination.styles";
 
 type TPaginationProps = {
   meta: TMetaData;
@@ -21,8 +16,7 @@ const Pagination: React.FC<TPaginationProps> = ({
 }) => {
   const totalCount = Math.ceil(meta.pagination.total / pagination.per_page);
   return (
-    <Wrapper>
-      <GlobalPaginationStyles />
+    <Root>
       <StyledReactPaginate
         breakLabel="..."
         nextLabel="→"
@@ -43,7 +37,7 @@ const Pagination: React.FC<TPaginationProps> = ({
         <option value={50}>50</option>
         <option value={100}>100</option>
       </Select>
-    </Wrapper>
+    </Root>
   );
 };
 

@@ -1,7 +1,7 @@
-import styled, { createGlobalStyle } from "styled-components";
+import styled from "styled-components";
 import ReactPaginate from "react-paginate";
 
-export const Wrapper = styled.div.attrs({
+export const Root = styled.div.attrs({
   className: "d-flex justify-content-between w-100 mb-3",
 })``;
 
@@ -9,17 +9,6 @@ export const Select = styled.select.attrs({
   className: "form-select",
 })`
   width: 13%;
-`;
-
-export const GlobalPaginationStyles = createGlobalStyle`
-  .selected {
-    a {
-      background-color: cornflowerblue;
-      color: white !important;
-    }
-  }
-
-
 `;
 
 export const StyledReactPaginate = styled(ReactPaginate)`
@@ -50,6 +39,13 @@ export const StyledReactPaginate = styled(ReactPaginate)`
         background-color: cornflowerblue;
         color: white !important;
       }
+    }
+  }
+
+  .selected {
+    a {
+      background-color: cornflowerblue;
+      color: white !important;
     }
   }
 `;

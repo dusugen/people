@@ -37,3 +37,5 @@ export const ButtonAddUser = styled(Link).attrs(
     type: "button",
   })
 )<{ $active: boolean }>``;
+
+export const ButtonContainer = styled.div``;
