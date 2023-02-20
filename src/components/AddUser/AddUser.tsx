@@ -37,9 +37,10 @@ const AddUser = () => {
           }
         })
         .catch((err) => {
+          console.log(err, "error");
           setToast({
             status: true,
-            message: `${err.message}`,
+            message: `${err || "Error"} `,
             type: "danger",
             title: "Add user",
           });

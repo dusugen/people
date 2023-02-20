@@ -70,7 +70,7 @@ const Filters: React.FC<TFiltersProps> = React.memo(
             }}
             value="inactive"
           />
-          <Label>Inactive</Label>
+          <Label htmlFor="inActiveCheckbox">Inactive</Label>
         </CheckboxContainer>
         <StyledButton onClick={handleReset}>
           <StyledLink to={"/"}>Reset</StyledLink>

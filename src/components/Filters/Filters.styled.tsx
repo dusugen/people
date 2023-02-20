@@ -12,7 +12,7 @@ export const Root = styled.div.attrs({
 `;
 
 export const Title = styled.h3.attrs({
-  className: "fw-bolder text-center",
+  className: "fw-bolder text-start mb-4",
 })``;
 
 export const Input = styled.input.attrs({
@@ -30,15 +30,21 @@ export const CheckboxContainer = styled.div.attrs({
 export const Checkbox = styled.input.attrs({
   className: "form-check-input",
   type: "checkbox",
-})``;
+})`
+  cursor: pointer;
+`;
 
 export const Label = styled.label.attrs({
   className: "form-check-label",
-})``;
+})`
+  cursor: pointer;
+`;
 
 export const StyledButton = styled(Button).attrs({
-  className: "btn-danger btn-lg",
-})``;
+  className: " btn-danger",
+})`
+  display: block;
+`;
 
 export const StyledLink = styled(Link)`
   text-decoration: none;

@@ -22,6 +22,15 @@ type TError = {
   message: string;
 };
 
+type TErrors = Array<{
+  field: string;
+  message: string;
+}>;
+
+function getErrorMessage(error: TErrors | null) {
+  return error && error[0] ? `${error[0].field} ${error[0].message}` : null;
+}
+
 function useMutate<B, D>({
   url,
   method,
@@ -44,15 +53,20 @@ function useMutate<B, D>({
             const code = axiosRes.data.code;
             const isSuccess = code < 400;
             const response = isSuccess ? (axiosRes.data.data as D) : null;
-            const error = !isSuccess ? (axiosRes.data.data as TError) : null;
+            const error = !isSuccess ? axiosRes.data.data : null;
+
+            const errorMessage =
+              (error as TError)?.message ||
+              getErrorMessage(error as TErrors) ||
+              "Unknown error";
 
             setData(response);
-            setError(error ? new Error(error.message) : null);
+            setError(error ? new Error(errorMessage) : null);
 
             if (isSuccess) {
               resolve(response);
             } else {
-              reject(error?.message);
+              reject(error ? errorMessage : null);
             }
           })
           .catch((err) => {

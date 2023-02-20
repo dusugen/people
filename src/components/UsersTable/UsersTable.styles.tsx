@@ -21,10 +21,7 @@ export const Tr = styled.tr.attrs({
 
 export const Th = styled.th`
   cursor: pointer;
-
-  &:last-child {
-    width: 13%;
-  }
+  white-space: nowrap;
 `;
 
 export const Unsorted = styled(TbArrowsSort)({

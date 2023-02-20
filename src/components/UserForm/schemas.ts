@@ -15,7 +15,7 @@ export type UserFields = {
 export const userFormSchema = yup.object<Shape<UserFields>>({
   name: yup
     .string()
-    .required("Please,enter your name")
+    .required("Please, enter your name")
     .min(2, "Name is too short")
     .default(""),
   email: yup
