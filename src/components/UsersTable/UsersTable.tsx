@@ -1,5 +1,4 @@
 import React, { useCallback, useMemo } from "react";
-import "bootstrap-icons/font/bootstrap-icons.css";
 import UserRow from "./components/UserRow/UserRow";
 import Pagination from "./components/Pagination/Pagination";
 import { TMetaData, TUserData } from "../../types";
