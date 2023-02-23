@@ -11,7 +11,9 @@ import {
   Navbar,
 } from "./Header.styles";
 
-function Header() {
+import headerLogo from "../../images/header__logo.png";
+
+const Header = () => {
   const { pathname } = useLocation();
 
   return (
@@ -19,12 +21,8 @@ function Header() {
       <Container>
         <LogoContainer>
           <LogoLink to="/">
-            <Logo
-              src="https://cdn.dribbble.com/users/3494217/screenshots/6423133/01_preview.jpg?compress=1&resize=768x576&vertical=top"
-              alt="logo"
-            />
+            <Logo src={headerLogo} alt="logo" />
           </LogoLink>
-          <h1>People</h1>
         </LogoContainer>
         <ButtonContainer>
           <ButtonUserList to={`/`} $active={pathname === "/"}>
@@ -37,6 +35,6 @@ function Header() {
       </Container>
     </Navbar>
   );
-}
+};
 
 export default Header;

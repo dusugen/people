@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useFetch } from "../../hooks/useFetch";
 import { sortUsers } from "../../utils";
 import UsersTable from "../UsersTable/UsersTable";
@@ -8,6 +8,7 @@ import NotFound from "../NotFound/NotFound";
 import config from "../../config.json";
 import { TMetaData, TUserData } from "../../types";
 import { Col, Row } from "./UsersList.styles";
+import { AppContext } from "../../appContext";
 
 export type TUsersListSort = {
   direction: string;
@@ -28,6 +29,8 @@ export type TFilters = {
 };
 
 const UsersList: React.FC = () => {
+  const { setToast } = useContext(AppContext);
+
   const [filters, setFilters] = useState<TFilters>({
     name: "",
     email: "",
@@ -77,9 +80,14 @@ const UsersList: React.FC = () => {
       setUsersData(sortUsers(users.data, sorting.field, sorting.direction));
     }
     if (users.error) {
-      alert(users.error);
+      setToast({
+        status: true,
+        message: `${users.error.message}`,
+        type: "danger",
+        title: "Error",
+      });
     }
-  }, [users.data, users.isLoading, sorting, users.error]);
+  }, [users.data, users.isLoading, sorting, users.error, setToast]);
 
   const handleFiltering = useCallback(
     (newFilters: Partial<TFilters>) => {

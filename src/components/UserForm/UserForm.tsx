@@ -71,7 +71,7 @@ export const UserForm: React.FC<UserFormProps> = React.memo(
       setModalShow(true);
       setModalInfo({
         title: "Delete",
-        text: "Are you agree to delete this user?",
+        text: "Are you sure?",
       });
     };
 
@@ -127,11 +127,7 @@ export const UserForm: React.FC<UserFormProps> = React.memo(
             render={({ field, fieldState }) => {
               return (
                 <SelectWrapper>
-                  <ReactSelect
-                    {...field}
-                    options={options}
-                    placeholder="Choose your gender"
-                  />
+                  <ReactSelect {...field} options={options} placeholder="..." />
                   <InputError id="genderHelp">
                     {fieldState.error ? fieldState.error.message : null}
                   </InputError>
@@ -157,7 +153,7 @@ export const UserForm: React.FC<UserFormProps> = React.memo(
             </div>
             <div>
               <ButtonSubmit disabled={!isValid || isLoading}>
-                {data ? "Edit" : "Add"}
+                {data ? "Edit" : "Save"}
               </ButtonSubmit>
               <ButtonCancel to={"/"}>Cancel</ButtonCancel>
             </div>

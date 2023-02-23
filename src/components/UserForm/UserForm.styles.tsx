@@ -21,8 +21,6 @@ export const InputError = styled.div.attrs({
 })`
   color: red;
   font-size: 14px;
-  font-weight: 600;
-  font-style: italic;
 `;
 
 export const SelectWrapper = styled.div`

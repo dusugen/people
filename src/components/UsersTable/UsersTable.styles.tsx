@@ -7,9 +7,7 @@ export const TableWrapper = styled.div.attrs({
 
 export const Table = styled.table.attrs({
   className: "table table-hover ",
-})`
-  padding-right: 30px;
-`;
+})``;
 
 export const Thead = styled.thead.attrs({
   className: "bg-warning bg-gradient",

@@ -38,6 +38,7 @@ function EditUser() {
     })
       .then((res) => {
         setToast({
+          title: "Edit",
           status: true,
           message: "User was changed",
           type: "success",
@@ -46,6 +47,7 @@ function EditUser() {
       })
       .catch((err) => {
         setToast({
+          title: "Error",
           status: true,
           message: `${err}!`,
           type: "danger",
@@ -57,6 +59,7 @@ function EditUser() {
     removeUser()
       .then((res) => {
         setToast({
+          title: "Delete",
           status: true,
           message: "User was deleted",
           type: "success",
@@ -65,6 +68,7 @@ function EditUser() {
       })
       .catch((err) => {
         setToast({
+          title: "Error",
           status: true,
           message: `User delete failed. ${err}!`,
           type: "danger",

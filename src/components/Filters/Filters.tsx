@@ -9,7 +9,6 @@ import {
   Select,
   StyledButton,
   StyledLink,
-  Title,
 } from "./Filters.styled";
 
 type TFiltersProps = {
@@ -31,7 +30,6 @@ const Filters: React.FC<TFiltersProps> = React.memo(
 
     return (
       <Root>
-        <Title>Filters</Title>
         <Input
           placeholder={`Name`}
           value={filters.name}
@@ -46,7 +44,7 @@ const Filters: React.FC<TFiltersProps> = React.memo(
           aria-label={`Default select example`}
           onChange={(e) => onFiltering({ gender: e.target.value })}
         >
-          <option value={``}>Choose your gender</option>
+          <option value={``}>Gender...</option>
           <option value={`male`}>Male</option>
           <option value={`female`}>Female</option>
         </Select>

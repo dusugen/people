@@ -10,6 +10,7 @@ import NotFound from "./components/NotFound/NotFound";
 import ShowToast from "./components/shared/ShowToast/ShowToast";
 import { AppContext } from "./appContext";
 import { Container } from "./App.styles";
+import { GlobalStylesStyled } from "./styles/GlobalStyles.styled";
 
 export interface IToastData {
   status: boolean;
@@ -40,6 +41,7 @@ const App: React.FC = () => {
 
   return (
     <Container>
+      <GlobalStylesStyled />
       <AppContext.Provider
         value={{
           toastData,

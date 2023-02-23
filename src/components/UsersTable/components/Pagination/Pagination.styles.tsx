@@ -19,11 +19,11 @@ export const StyledReactPaginate = styled(ReactPaginate)`
 
   li {
     display: inline-block;
-    color: cornflowerblue;
+    color: #0d6efd;
 
     a {
       font-size: 14px;
-      color: cornflowerblue;
+      color: #0d6efd;
       display: inline-block;
       width: 30px;
       height: 30px;
@@ -32,11 +32,11 @@ export const StyledReactPaginate = styled(ReactPaginate)`
       border-radius: 6px;
       margin-right: 5px;
       cursor: pointer;
-      border: 1px solid cornflowerblue;
+      border: 1px solid #0d6efd;
       text-decoration: none;
 
       &:hover {
-        background-color: cornflowerblue;
+        background-color: #0d6efd;
         color: white !important;
       }
     }
@@ -44,7 +44,7 @@ export const StyledReactPaginate = styled(ReactPaginate)`
 
   .selected {
     a {
-      background-color: cornflowerblue;
+      background-color: #0d6efd;
       color: white !important;
     }
   }

@@ -29,7 +29,7 @@ const ConfirmModal: React.FC<TConfirmModalProps> = ({
         <Button variant="secondary" onClick={onClose} disabled={isDisabled}>
           Close
         </Button>
-        <Button variant="primary" onClick={onConfirm} disabled={isDisabled}>
+        <Button variant="success" onClick={onConfirm} disabled={isDisabled}>
           Confirm
         </Button>
       </Modal.Footer>

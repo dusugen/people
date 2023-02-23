@@ -15,16 +15,16 @@ export type UserFields = {
 export const userFormSchema = yup.object<Shape<UserFields>>({
   name: yup
     .string()
-    .required("Please, enter your name")
-    .min(2, "Name is too short")
+    .required("Required")
+    .min(2, "Min length 2 letter")
     .default(""),
   email: yup
     .string()
-    .required("Please, enter your email")
+    .required("Required")
     .lowercase()
-    .matches(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/, "Enter correct email")
+    .matches(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/, "Incorrect email")
     .trim()
     .default(""),
-  gender: yup.mixed().required("Please, choose your gender"),
+  gender: yup.mixed().required("Required"),
   status: yup.boolean().default(false).defined(),
 });

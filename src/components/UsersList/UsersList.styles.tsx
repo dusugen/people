@@ -11,5 +11,5 @@ export const Row = styled.div.attrs({
 export const Col = styled.div.attrs({
   className: "col-lg-9",
 })`
-  padding-right: 30px;
+  padding-right: 25px;
 `;

@@ -11,10 +11,6 @@ export const Root = styled.div.attrs({
   }
 `;
 
-export const Title = styled.h3.attrs({
-  className: "fw-bolder text-start mb-4",
-})``;
-
 export const Input = styled.input.attrs({
   className: "form-control mb-3",
 })``;
