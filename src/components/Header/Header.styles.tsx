@@ -10,6 +10,8 @@ export const Navbar = styled.nav.attrs({
     width: 100% !important;
     z-index: 1;
     background-color: white;
+    padding: 0;
+    margin: 10px 0;
   }
 `;
 
