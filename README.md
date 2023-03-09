@@ -68,8 +68,42 @@ people-image
   docker stop people-container
 ```
 
-* Remove stopped  container
+* Remove stopped container
 
 ```bash
   docker rm people-container
+```
+
+---
+
+## Commands for Docker-compose
+
+* Create and start containers
+
+```
+  docker-compose up
+```
+
+* View output from containers in real time
+
+```
+  docker-compose logs -f
+```
+
+* Restart service containers
+
+```
+  docker-compose restart
+```
+
+* Stop and remove containers, networks
+
+```
+  docker-compose down
+```
+
+* Stop one or more running containers
+
+```
+  docker-compose stop
 ```

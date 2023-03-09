@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  react-ui:
+    container_name: people
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    command: [ "npm","run","start" ]
